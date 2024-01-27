@@ -2,36 +2,29 @@ n, m = map(int, input().split())
 
 grid = [list(map(int, input().split())) for _ in range(n)]
 
+def is_happy():
+    same_cnt, max_cnt = 1, 1
+    for i in range(1, n):
+        if(seq[i - 1] == seq[i]):
+            same_cnt += 1
+        else:
+            same_cnt = 1
+        
+        max_cnt = max(max_cnt, same_cnt)
+    return max_cnt >= m
+
 cnt = 0
 
 for i in range(n):
-    max_same_cnt = 1
-    same_cnt = 1
-    before = -1
-    for j in range(n):
-        if grid[i][j] == before:
-            same_cnt += 1
-        else:
-            max_same_cnt = max(max_same_cnt, same_cnt)
-            same_cnt = 1
-        before = grid[i][j]
-    max_same_cnt = max(max_same_cnt, same_cnt)
-    if max_same_cnt >= m:
-        cnt+=1
+    seq = grid[i][:]
     
-for i in range(n):
-    max_same_cnt = 1
-    same_cnt = 1
-    before = -1
-    for j in range(n):
-        if grid[j][i] == before:
-            same_cnt += 1
-        else:
-            max_same_cnt = max(max_same_cnt, same_cnt)
-            same_cnt = 1
-        before = grid[j][i]
-    max_same_cnt = max(max_same_cnt, same_cnt)
-    if max_same_cnt >= m:
-        cnt+=1
+    if is_happy():
+        cnt += 1
+
+for j in range(n):
+    for i in range(n):
+        seq[i] = grid[i][j]
+    if is_happy():
+        cnt += 1
 
 print(cnt)
