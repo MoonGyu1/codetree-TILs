@@ -20,7 +20,7 @@ for i in range(n):
     for j in range(n):
         if grid[j][i] == before:
             same_cnt += 1
-        before = grid[i][j]
+        before = grid[j][i]
     if same_cnt >= m:
         cnt+=1
 print(cnt)
