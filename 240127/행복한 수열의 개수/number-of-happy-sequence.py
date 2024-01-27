@@ -23,4 +23,5 @@ for i in range(n):
         before = grid[j][i]
     if same_cnt >= m:
         cnt+=1
+
 print(cnt)
