@@ -5,7 +5,7 @@ grid = [list(map(int, input().split())) for _ in range(n)]
 cnt = 0
 
 for i in range(n):
-    max_same_cnt = 0
+    max_same_cnt = 1
     same_cnt = 1
     before = -1
     for j in range(n):
@@ -15,11 +15,12 @@ for i in range(n):
             max_same_cnt = max(max_same_cnt, same_cnt)
             same_cnt = 1
         before = grid[i][j]
+    max_same_cnt = max(max_same_cnt, same_cnt)
     if max_same_cnt >= m:
         cnt+=1
     
 for i in range(n):
-    max_same_cnt = 0
+    max_same_cnt = 1
     same_cnt = 1
     before = -1
     for j in range(n):
@@ -29,6 +30,7 @@ for i in range(n):
             max_same_cnt = max(max_same_cnt, same_cnt)
             same_cnt = 1
         before = grid[j][i]
+    max_same_cnt = max(max_same_cnt, same_cnt)
     if max_same_cnt >= m:
         cnt+=1
 
