@@ -1,9 +1,6 @@
-# input
 n, m = map(int, input().split())
 grid = [list(map(int, input().split())) for _ in range(n)]
 
-# get max
-# 1. get first block max
 def get_first_block_max(row, col):
      # 상 우 하 좌
     rotate_row = [-1, 0, 1, 0]
@@ -23,7 +20,6 @@ def get_first_block_max(row, col):
     
     return max_cnt
 
-# 2. get second block max
 def get_second_block_max(row, col):
     max_cnt = 0
     
@@ -37,7 +33,6 @@ def get_second_block_max(row, col):
     
     return max_cnt
 
-# get max(1, 2)
 max_cnt = 0
 for i in range(n):
     for j in range(m):
@@ -46,7 +41,5 @@ for i in range(n):
 
         second_max = get_second_block_max(i, j)
         max_cnt = max(max_cnt, second_max)
-        # print(first_max, second_max)
-        # print(max_cnt)
 
 print(max_cnt)
