@@ -7,7 +7,7 @@ public class Main {
     public static int[][] grid = new int[MAX_NUM][MAX_NUM];
 
     // 가능한 모든 모양
-    public static int[][] shapes = new int[][][] {
+    public static int[][][] shapes = new int[][][] {
         {{1,1,0},
         {1,0,0},
         {0,0,0}},
@@ -31,7 +31,7 @@ public class Main {
         {{1,0,0},
         {1,0,0},
         {1,0,0}},
-    }
+    };
 
     // 주어진 위치에 대하여 가능한 모든 모양을 탐색하면서 최대 합을 반환
     public static int getMaxSum(int x, int y) {
