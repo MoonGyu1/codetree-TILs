@@ -8,11 +8,11 @@ def get_first_block_max(row, col):
      # 상 우 하 좌
     rotate_row = [-1, 0, 1, 0]
     rotate_col = [0, 1, 0, -1]
-    
+
     max_cnt = 0
     point = grid[row][col]
     for i in range(4):
-        if (row + rotate_row[i]) % 4 < n and (col + rotate_col[i]) % 4 < m and (row + rotate_row[(i + 1) % 4]) % 4 < n and (col + rotate_col[(i + 1) % 4]) % 4 < m:
+        if 0 <= row + rotate_row[i] < n and 0 <= col + rotate_col[i] < m and 0 <= row + rotate_row[(i + 1) % 4] < n and 0 <= col + rotate_col[(i + 1) % 4] < m:
             cnt = point
 
             # 상우, 우하, 하좌, 좌상
@@ -46,5 +46,7 @@ for i in range(n):
 
         second_max = get_second_block_max(i, j)
         max_cnt = max(max_cnt, second_max)
+        # print(first_max, second_max)
+        # print(max_cnt)
 
 print(max_cnt)
