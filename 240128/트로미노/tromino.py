@@ -16,8 +16,8 @@ def get_first_block_max(row, col):
             cnt = point
 
             # 상우, 우하, 하좌, 좌상
-            cnt += grid[(row + rotate_row[i]) % 4][(col + rotate_col[i]) % 4]
-            cnt += grid[(row + rotate_row[(i + 1) % 4]) % 4][(col + rotate_col[(i + 1) % 4]) % 4]
+            cnt += grid[row + rotate_row[i]][col + rotate_col[i]]
+            cnt += grid[row + rotate_row[(i + 1) % 4]][col + rotate_col[(i + 1) % 4]]
             
             max_cnt = max(max_cnt, cnt)
     
