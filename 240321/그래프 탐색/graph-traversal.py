@@ -1,11 +1,11 @@
-def dfs(v):
+def dfs(v, visited):
     if visited[v]:
         if v!=1:
             s.add(v)
         return
     visited[v] = True
     for i in graph[v]:
-        dfs(i)
+        dfs(i, visited)
 
 n, m = map(int, input().split())
 
@@ -19,6 +19,6 @@ for i in range(m):
 
 s = set()
 
-dfs(1)
+dfs(1, visited)
 
 print(len(s))
