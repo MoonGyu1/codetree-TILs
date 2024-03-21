@@ -36,4 +36,4 @@ while q:
             q.append((next_x, next_y))
 
 success = 1 if visited[n-1][m-1] else 0
-return success
+print(success)
