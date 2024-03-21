@@ -1,17 +1,19 @@
 def dfs(x, y):
+    # print(visited)
     if x == n - 1 and y == m - 1:
-        global success
+        # global success
         success = 1
         return
-    for next_x, next_y in zip(move_x, move_y):
+    for i, j in zip(move_x, move_y):
+        next_x, next_y = x + i, y + j
         if can_go(next_x, next_y):
             visited[next_x][next_y] = True
             dfs(next_x, next_y)
 
 def can_go(x, y):
-    if graph[x][y] == 0:
+    if not in_range(x, y):
         return False
-    if in_range(x, y) and not visited[x][y]:
+    if not visited[x][y] and graph[x][y] != 0:
         return True
     return False
 
@@ -33,4 +35,5 @@ success = 0
 
 visited[x][y] = True
 dfs(x, y)
+
 print(success)
