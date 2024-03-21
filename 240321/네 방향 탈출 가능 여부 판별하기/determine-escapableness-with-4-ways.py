@@ -17,17 +17,21 @@ dxs, dys = [-1, 1, 0, 0], [0, 0, -1, 1]
 success = 0
 
 q = deque()
-visited[x][y] = True
-q.append((x, y))
 
-while q:
-    v = q.popleft()
-    for dx, dy in zip(dxs, dys):
-        next_x = v[0] + dx
-        next_y = v[1] + dy
-        if can_go(next_x, next_y):
-            visited[next_x][next_y] = True
-            q.append((next_x, next_y))
+def bfs():
+    while q:
+        v = q.popleft()
+        for dx, dy in zip(dxs, dys):
+            next_x = v[0] + dx
+            next_y = v[1] + dy
+            if can_go(next_x, next_y):
+                visited[next_x][next_y] = True
+                q.append((next_x, next_y))
+
+visited[0][0] = True
+q.append((0, 0))
+
+bfs()
 
 success = 1 if visited[n-1][m-1] else 0
 print(success)
