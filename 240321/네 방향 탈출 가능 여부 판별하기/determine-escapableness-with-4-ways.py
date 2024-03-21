@@ -38,5 +38,4 @@ while q and success != 1:
             visited[next_x][next_y] = True
             q.append((next_x, next_y))
 
-
 print(success)
