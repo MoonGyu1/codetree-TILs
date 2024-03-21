@@ -31,5 +31,6 @@ move_x, move_y = [1, 0], [0, 1]
 
 success = 0
 
+visited[x][y] = True
 dfs(x, y)
 print(success)
