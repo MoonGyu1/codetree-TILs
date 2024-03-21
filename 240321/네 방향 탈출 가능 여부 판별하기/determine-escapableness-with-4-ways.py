@@ -1,11 +1,9 @@
 from collections import deque
 
 n, m = map(int, input().split())
-graph = [[] for _ in range(n)]
+graph = [list(map(int, input().split())) for _ in range(n)]
 visited = [[False for _ in range(m)] for _ in range(m)]
 q = deque()
-for i in range(n):
-    graph[i] = list(map(int, input().split()))
 
 def can_go(x, y):
     return in_range(x, y) and graph[x][y] != 0 and not visited[x][y]
