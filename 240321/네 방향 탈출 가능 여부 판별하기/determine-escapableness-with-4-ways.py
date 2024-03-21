@@ -2,7 +2,7 @@ from collections import deque
 
 n, m = map(int, input().split())
 graph = [list(map(int, input().split())) for _ in range(n)]
-visited = [[False for _ in range(m)] for _ in range(m)]
+visited = [[False for _ in range(m)] for _ in range(n)]
 q = deque()
 
 def can_go(x, y):
