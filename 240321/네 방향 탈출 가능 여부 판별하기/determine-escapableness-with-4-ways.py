@@ -1,16 +1,10 @@
 from collections import deque
 
 def can_go(x, y):
-    if not in_range(x, y):
-        return False
-    if not visited[x][y] and graph[x][y] != 0:
-        return True
-    return False
+    return in_range(x, y) and graph[x][y] != 0 and not visited[x][y]
 
 def in_range(x, y):
-    if 0 <= x < n and 0 <= y < m:
-        return True
-    return False
+    return 0 <= x < n and 0 <= y < m
 
 n, m = map(int, input().split())
 graph = [[] for _ in range(n)]
