@@ -1,5 +1,6 @@
 def dfs(x, y):
     if x == n - 1 and y == m - 1:
+        global success
         success = 1
         return
     for next_x, next_y in zip(move_x, move_y):
