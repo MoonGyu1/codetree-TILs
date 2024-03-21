@@ -1,7 +1,6 @@
 def dfs(x, y):
-    # print(visited)
     if x == n - 1 and y == m - 1:
-        # global success
+        global success
         success = 1
         return
     for i, j in zip(move_x, move_y):
@@ -30,7 +29,6 @@ for i in range(n):
     
 x, y = 0, 0
 move_x, move_y = [1, 0], [0, 1]
-
 success = 0
 
 visited[x][y] = True
