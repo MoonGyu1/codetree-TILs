@@ -19,6 +19,9 @@ for i in range(m):
 
 s = set()
 
+for i in graph[1]:
+        dfs(i, [False] * n)
+
 dfs(1, visited)
 
 print(len(s))
