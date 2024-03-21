@@ -1,27 +1,24 @@
-def dfs(v, visited):
-    if visited[v]:
-        if v!=1:
-            s.add(v)
-        return
-    visited[v] = True
+def dfs(v):
+    global cnt
+
     for i in graph[v]:
-        dfs(i, visited)
+        if not visited[i]:
+            visited[i] = True
+            cnt += 1
+            dfs(i)
 
 n, m = map(int, input().split())
 
 graph = [[] for _ in range(n+1)]
-visited = [False] * n
+visited = [False for _ in range(n + 1)]
 
 for i in range(m):
     x, y = map(int, input().split())
     graph[x].append(y)
     graph[y].append(x)
 
-s = set()
+cnt = 0
+visited[1] = True
+dfs(1)
 
-for i in graph[1]:
-        dfs(i, [False] * n)
-
-dfs(1, visited)
-
-print(len(s))
+print(cnt)
