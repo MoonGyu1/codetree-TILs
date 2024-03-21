@@ -26,16 +26,14 @@ q = deque()
 visited[x][y] = True
 q.append((x, y))
 
-while q and success != 1:
+while q:
     v = q.popleft()
     for dx, dy in zip(dxs, dys):
         next_x = v[0] + dx
         next_y = v[1] + dy
         if can_go(next_x, next_y):
-            if next_x == n - 1 and next_y == m - 1:
-                success = 1
-                break
             visited[next_x][next_y] = True
             q.append((next_x, next_y))
 
-print(success)
+success = 1 if visited[n-1][m-1] else 0
+return success
