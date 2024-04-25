@@ -28,5 +28,6 @@ public class Main {
             chooseNum(currIdx + 1);
             a.remove(a.size() - 1);
         }
+        return;
     }
 }
