@@ -7,12 +7,10 @@ public class Main {
 
     // 주어진 숫자에 가능한 옵션을 각각 더하면서 정답이면 카운트 추가하고 재귀 호출, 정답이 아니면 멈추는 함수
     public static void make(String num) {
-        if(num.length() > n){
+        if(num.length() == n){
+            answer++;
             return;
         }
-        
-        if(num.length() == n)
-            answer++;
 
         for(int i=0; i<4; i++){
             num += opt[i];
