@@ -11,7 +11,6 @@ public class Main {
         n = sc.nextInt();
 
         chooseNum(1);
-        return;
     }
 
     public static void print() {
