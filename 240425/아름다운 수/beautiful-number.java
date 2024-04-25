@@ -13,8 +13,6 @@ public class Main {
             return;
         }
         
-        
-
         for(int i=0; i<4; i++){
             num += opt[i];
             make(num);
