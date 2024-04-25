@@ -62,12 +62,6 @@ public class Main {
             }
         }
 
-        // for(int i=0; i<n; i++){
-        //     System.out.println(Arrays.toString(map[i]));
-        // }
-        // for(int i=0; i<pos.size(); i++){
-        //     System.out.println(Arrays.toString(pos.get(i)));
-        // }
         count(0);
 
         System.out.println(max);
