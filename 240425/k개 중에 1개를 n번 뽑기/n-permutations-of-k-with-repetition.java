@@ -6,8 +6,8 @@ public class Main {
     public static ArrayList<Integer> a = new ArrayList<>();
 
     public static void print() {
-        for(int i = 0; i < selectedNums.size(); i++)
-            System.out.print(selectedNums.get(i) + " ");
+        for(int i = 0; i < a.size(); i++)
+            System.out.print(a.get(i) + " ");
         System.out.println();
         // System.out.printf("%d %d\n", a.get(0), a.get(1));
     }
