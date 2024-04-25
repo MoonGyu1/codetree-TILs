@@ -10,7 +10,8 @@ public class Main {
         k = sc.nextInt();
         n = sc.nextInt();
 
-        chooseNum(1);   
+        chooseNum(1);
+        return;
     }
 
     public static void print() {
