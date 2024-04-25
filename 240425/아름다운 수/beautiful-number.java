@@ -11,7 +11,7 @@ public class Main {
             return;
         }
         
-        if(num.length() != 0)
+        if(num.length() == n)
             answer++;
 
         for(int i=0; i<4; i++){
