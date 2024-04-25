@@ -5,16 +5,11 @@ public class Main {
     public static int k, n;
     public static ArrayList<Integer> a = new ArrayList<>();
 
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        k = sc.nextInt();
-        n = sc.nextInt();
-
-        chooseNum(1);
-    }
-
     public static void print() {
-        System.out.printf("%d %d\n", a.get(0), a.get(1));
+        for(int i = 0; i < selectedNums.size(); i++)
+            System.out.print(selectedNums.get(i) + " ");
+        System.out.println();
+        // System.out.printf("%d %d\n", a.get(0), a.get(1));
     }
 
     public static void chooseNum(int currIdx) {
@@ -29,5 +24,13 @@ public class Main {
             a.remove(a.size() - 1);
         }
         return;
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        k = sc.nextInt();
+        n = sc.nextInt();
+
+        chooseNum(1);
     }
 }
