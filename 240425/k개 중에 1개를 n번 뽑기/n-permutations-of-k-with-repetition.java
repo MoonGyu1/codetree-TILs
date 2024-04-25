@@ -27,7 +27,8 @@ public class Main {
         for(int i = 1; i < k+1; i++){
             a.add(i);
             chooseNum(currIdx + 1);
-            a.remove(a.size() - 1);
+            if(a.size() > 0)
+                a.remove(a.size() - 1);
         }
         return;
     }
