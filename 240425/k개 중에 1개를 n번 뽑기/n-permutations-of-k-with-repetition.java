@@ -3,7 +3,7 @@ import java.util.ArrayList;
 
 public class Main {
     public static int k, n;
-    public static ArrayList<Integer> a = new ArrayList<Integer>();
+    public static ArrayList<Integer> a = new ArrayList<>();
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
