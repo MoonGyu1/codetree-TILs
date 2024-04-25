@@ -9,7 +9,6 @@ public class Main {
         for(int i = 0; i < a.size(); i++)
             System.out.print(a.get(i) + " ");
         System.out.println();
-        // System.out.printf("%d %d\n", a.get(0), a.get(1));
     }
 
     public static void chooseNum(int currIdx) {
