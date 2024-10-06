@@ -31,7 +31,7 @@ public class Main {
     
                     // System.out.println("x: " + x + " y: " + y + " exit: " +exit); // 0123: 북동남서=
                 
-
+    
                 int[] tmp = down(x, y, exit);
                 if(x != tmp[0]) { // 아래로 이동함
                     x = tmp[0];
@@ -88,7 +88,9 @@ public class Main {
     }
 
     static int[] down(int x, int y, int exit) { // return x, y, exit
-        if(x + 2 > r || map[x+1][y-1] != 0 || map[x+1][y+1] != 0 || map[x+2][y] != 0) { // 아래로 이동 불가
+        if(x + 2 > r) return new int[]{x, y, exit};
+        
+        if(map[x+1][y-1] != 0 || map[x+1][y+1] != 0 || map[x+2][y] != 0) { // 아래로 이동 불가
             return new int[]{x, y, exit};
         }
 
@@ -104,7 +106,7 @@ public class Main {
     }
 
     static int[] right(int x, int y, int exit) { // return x, y, exit
-        if(y+2 > c || x + 2 > r || (x-1 >= 0 && map[x-1][y+1] != 0) || map[x][y+2] != 0 || map[x+1][y+1] != 0 || map[x+1][y+2] != 0 || map[x+2][y+1] != 0) { // 오른쪽 아래로 이동 불가
+        if(y+2 > c || x + 2 > r || (x-1 >= 0 && map[x-1][y+1] != 0) || (x > 0 && map[x][y+2] != 0) || map[x+1][y+1] != 0 || map[x+1][y+2] != 0 || map[x+2][y+1] != 0) { // 오른쪽 아래로 이동 불가
             return new int[]{x, y, exit};
         }
 
@@ -112,32 +114,19 @@ public class Main {
     }
 
     static int moveFairy(int x, int y, int k, int max) { // return max row
-        // 인접한 골렘으로 이동한 경우, k 변경 필요
-        // System.out.println("x: " + x + " y: " + y + " k: " + k + " max: " + max);
-
         int[] dx = new int[]{-1, 0, 1, 0};
         int[] dy = new int[]{0, 1, 0, -1};
         for(int i = 0; i < 4; i++) {
             int can = canGo(x + dx[i], y + dy[i], k);
             if(can != 0) {
                 visited[x + dx[i]][y + dy[i]] = true;
-                max = moveFairy(x + dx[i], y + dy[i], can, Math.max(max, x + dx[i]));
+                max = moveFairy(x + dx[i], y + dy[i], can, Math.max(max, x + dx[i])); // 인접한 골렘으로 이동한 경우 k 변경 필요
             }
         }
 
         return max;
     }
 
-        // moveFairy(x, y, k) { // dfs로 구현(재귀)
-    //    if(visited[x][y] || map[x][y] == 0 || (map[x][y] != k && !isAdjacent(x, y, k))) return -1
-        // visited[x][y] = true;
-        // moveFairy(동, k)
-        // moveFairy(서, k)
-        // moveFairy(남, k)
-        // moveFairy(북, k)
-        // return max(동서남북, x)
-        //}
-    
     static int canGo(int x, int y, int k) { // 0: false, 1~k: 이동 후 골렘 번호
         if(x < 1 || x > r || y < 1 || y > c) return 0; // 숲을 벗어나는 경우
         if(visited[x][y]) return 0; // 이미 방문한 경우
@@ -161,74 +150,4 @@ public class Main {
     }
 }
 
-//6 5 6
-// 2 3 // 0123: 북동남서
-// 2 0
-// 4 2
-// 2 0
-// 2 0
-// 2 2
-
-// 29
-
-// 필요한 변수
-// map[r+1][c+1] = new int[][] // '고정된' 골렘의 위치(이동중은 포함X), 0으로 초기화, 골렘 이동 완료 시 골렘번호 저장(1~K)
-// map[r+1][c+1] = new boolean[][] // 출구 여부
-// visited[][]
-// ans = 0
-// 
-// 필요한 함수
-// moveFairy(x, y, k) { // dfs로 구현(재귀)
-//    if(visited[x][y] || map[x][y] == 0 || (map[x][y] != k && !isAdjacent(x, y, k))) return -1
-// visited[x][y] = true;
-// moveFairy(동, k)
-// moveFairy(서, k)
-// moveFairy(남, k)
-// moveFairy(북, k)
-// return max(동서남북, x)
-//}
-// int[] down(x, y, out) // x,y,out 반환
-// int[] left(x, y, out) // x,y,out 반환
-// int[] right(x, y, out) // x,y,out 반환
-
-// for(i=1~k+1) { // 골렘번호
-//   middle, exit = 2, 3 ..
-//   x, y = -1, 2
-//   canMove = true
-//   while(canMove) {
-//      nextX, nextY, out = down(x, y, out)
-//      if(x!=nextX){ // 이동함
-//        x= nextX, y = nextY, exit = out
-    //.    continue;
-//     }
-     // nextX, nextY, out = left(x, y, out)
-     // if(x!=nextX){ // 이동함
-     // x= nextX, y = nextY, exit = out
-    //.    continue;
-//     }
-      // nextX, nextY = right(x, y, out)
-     // if(x!=nextX){ // 이동함
-     // x= nextX, y = nextY, exit = out
-    //.    continue;
-    // // 이동 끝
-    //canMove = false
-    // if(x < 2) // 골렘이 숲을 벗어난 경우,
-     // {
-            // map = new new int[r+1][c+1] // 모든 골렘 숲 빠져나감
-            // break; 
-    //. }
-    // 맵에 골렘의 최종 위치 저장
-    //  dx,dy
-    // map[a][b] = k // 골렘번호
-    // switch(exit){
-    //  case(동서남북)  :
-    //  exit[][]  = k
-    // }
-    // 
-    //
-    // 이제 정령을 이동
-    // vistied = new[][]
-    // max = moveFairy(x, y);
-    // ans+= max;
-//   }
-// }
+// 0123: 북동남서
