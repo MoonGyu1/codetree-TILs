@@ -1,0 +1,234 @@
+import java.util.*;
+import java.io.*;
+
+public class Main {
+    static int r, c, k;
+    static int[][] map;
+    static int[][] isExit;
+    static boolean[][] visited;
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+
+        r = Integer.parseInt(st.nextToken());
+        c = Integer.parseInt(st.nextToken());
+        k = Integer.parseInt(st.nextToken());
+
+        map = new int[r+1][c+1];
+        isExit = new int[r+1][c+1];
+
+        int ans = 0;
+        for(int i = 1; i <= k; i++) {
+            st = new StringTokenizer(br.readLine());
+            int y = Integer.parseInt(st.nextToken()); // 출발 열
+            int exit = Integer.parseInt(st.nextToken());
+
+            int x = -1; //출발 행 (골렘 중앙)
+            boolean canMove = true;
+            // System.out.println(i);
+            while(canMove) {
+    
+                    // System.out.println("x: " + x + " y: " + y + " exit: " +exit); // 0123: 북동남서=
+                
+
+                int[] tmp = down(x, y, exit);
+                if(x != tmp[0]) { // 아래로 이동함
+                    x = tmp[0];
+                    continue;
+                }
+                
+                tmp = left(x, y, exit);
+                if(x != tmp[0]) { // 왼쪽 아래로 이동함
+                    x = tmp[0]; y = tmp[1]; exit = tmp[2];
+                    continue;
+                }
+
+                tmp = right(x, y, exit);
+                if(x != tmp[0]) { // 오른쪽 아래로 이동함
+                    x = tmp[0]; y = tmp[1]; exit = tmp[2];
+                    continue;
+                }
+
+                canMove = false; // 골렘 이동 끝;
+
+                if(x < 2) { // 골렘의 몸 일부가 숲을 벗어난 경우
+                    map = new int[r+1][c+1];
+                    isExit = new int[r+1][c+1];
+                    break;
+                }
+
+                // System.out.println("x: " + x + " y: " + y + " exit: " +exit); // 0123: 북동남서
+                 // 맵에 골렘의 최종 위치 저장 (북,동,남,서,중)
+                int[] dx = new int[]{-1, 0, 1, 0, 0};
+                int[] dy = new int[]{0, 1, 0, -1, 0};
+                for(int j = 0; j < 5; j++) {
+                    map[x + dx[j]][y + dy[j]] = i;
+                }
+
+                isExit[x + dx[exit]][y + dy[exit]] = i;
+                // for(int l=0;l<r+1;l++){
+                //     System.out.println(Arrays.toString(isExit[l]));
+                // }
+
+                // System.out.println("k: " + i);
+                visited = new boolean[r+1][c+1];
+                visited[x][y] = true;
+                int maxR = moveFairy(x, y, i, x);
+                // System.out.println("maxR: " + maxR);
+                // 이제 정령을 이동
+                // vistied = new[][]
+                // max = moveFairy(x, y);
+                // ans+= max;
+                ans += maxR;
+            }
+        }
+        
+        System.out.println(ans);
+    }
+
+    static int[] down(int x, int y, int exit) { // return x, y, exit
+        if(x + 2 > r || map[x+1][y-1] != 0 || map[x+1][y+1] != 0 || map[x+2][y] != 0) { // 아래로 이동 불가
+            return new int[]{x, y, exit};
+        }
+
+        return new int[]{x+1, y, exit};
+    }
+
+    static int[] left(int x, int y, int exit) { // return x, y, exit
+        if(y-2 < 1 || x + 2 > r || (x-1 >= 0 && map[x-1][y-1] != 0) || map[x][y-2] != 0 || map[x+1][y-1] != 0 || map[x+1][y-2] != 0 || map[x+2][y-1] != 0) { // 왼쪽 아래로 이동 불가
+            return new int[]{x, y, exit};
+        }
+
+        return new int[]{x+1, y-1, (exit+3) % 4};
+    }
+
+    static int[] right(int x, int y, int exit) { // return x, y, exit
+        if(y+2 > c || x + 2 > r || (x-1 >= 0 && map[x-1][y+1] != 0) || map[x][y+2] != 0 || map[x+1][y+1] != 0 || map[x+1][y+2] != 0 || map[x+2][y+1] != 0) { // 오른쪽 아래로 이동 불가
+            return new int[]{x, y, exit};
+        }
+
+        return new int[]{x+1, y+1, (exit+1) % 4};
+    }
+
+    static int moveFairy(int x, int y, int k, int max) { // return max row
+        // 인접한 골렘으로 이동한 경우, k 변경 필요
+        // System.out.println("x: " + x + " y: " + y + " k: " + k + " max: " + max);
+
+        int[] dx = new int[]{-1, 0, 1, 0};
+        int[] dy = new int[]{0, 1, 0, -1};
+        for(int i = 0; i < 4; i++) {
+            int can = canGo(x + dx[i], y + dy[i], k);
+            if(can != 0) {
+                visited[x + dx[i]][y + dy[i]] = true;
+                max = moveFairy(x + dx[i], y + dy[i], can, Math.max(max, x + dx[i]));
+            }
+        }
+
+        return max;
+    }
+
+        // moveFairy(x, y, k) { // dfs로 구현(재귀)
+    //    if(visited[x][y] || map[x][y] == 0 || (map[x][y] != k && !isAdjacent(x, y, k))) return -1
+        // visited[x][y] = true;
+        // moveFairy(동, k)
+        // moveFairy(서, k)
+        // moveFairy(남, k)
+        // moveFairy(북, k)
+        // return max(동서남북, x)
+        //}
+    
+    static int canGo(int x, int y, int k) { // 0: false, 1~k: 이동 후 골렘 번호
+        if(x < 1 || x > r || y < 1 || y > c) return 0; // 숲을 벗어나는 경우
+        if(visited[x][y]) return 0; // 이미 방문한 경우
+        
+        if(map[x][y] == 0) return 0; // 길이 없는 경우
+        if(map[x][y] != k && !isAdjacent(x, y, k)) return 0;
+
+        return map[x][y];
+    }
+
+    static boolean isAdjacent(int x, int y, int k) { // map[x][y]와 인접한 칸에 k의 출구가 있는지 확인
+        int[] dx = new int[]{-1, 0, 1, 0};
+        int[] dy = new int[]{0, 1, 0, -1};
+        for(int i = 0; i < 4; i++) {
+            if(x + dx[i] < 1 || x + dx[i] > r || y + dy[i] < 1 || y + dy[i] > c) continue;
+
+            if(isExit[x + dx[i]][y + dy[i]] == k) return true;
+        }
+        
+        return false;
+    }
+}
+
+//6 5 6
+// 2 3 // 0123: 북동남서
+// 2 0
+// 4 2
+// 2 0
+// 2 0
+// 2 2
+
+// 29
+
+// 필요한 변수
+// map[r+1][c+1] = new int[][] // '고정된' 골렘의 위치(이동중은 포함X), 0으로 초기화, 골렘 이동 완료 시 골렘번호 저장(1~K)
+// map[r+1][c+1] = new boolean[][] // 출구 여부
+// visited[][]
+// ans = 0
+// 
+// 필요한 함수
+// moveFairy(x, y, k) { // dfs로 구현(재귀)
+//    if(visited[x][y] || map[x][y] == 0 || (map[x][y] != k && !isAdjacent(x, y, k))) return -1
+// visited[x][y] = true;
+// moveFairy(동, k)
+// moveFairy(서, k)
+// moveFairy(남, k)
+// moveFairy(북, k)
+// return max(동서남북, x)
+//}
+// int[] down(x, y, out) // x,y,out 반환
+// int[] left(x, y, out) // x,y,out 반환
+// int[] right(x, y, out) // x,y,out 반환
+
+// for(i=1~k+1) { // 골렘번호
+//   middle, exit = 2, 3 ..
+//   x, y = -1, 2
+//   canMove = true
+//   while(canMove) {
+//      nextX, nextY, out = down(x, y, out)
+//      if(x!=nextX){ // 이동함
+//        x= nextX, y = nextY, exit = out
+    //.    continue;
+//     }
+     // nextX, nextY, out = left(x, y, out)
+     // if(x!=nextX){ // 이동함
+     // x= nextX, y = nextY, exit = out
+    //.    continue;
+//     }
+      // nextX, nextY = right(x, y, out)
+     // if(x!=nextX){ // 이동함
+     // x= nextX, y = nextY, exit = out
+    //.    continue;
+    // // 이동 끝
+    //canMove = false
+    // if(x < 2) // 골렘이 숲을 벗어난 경우,
+     // {
+            // map = new new int[r+1][c+1] // 모든 골렘 숲 빠져나감
+            // break; 
+    //. }
+    // 맵에 골렘의 최종 위치 저장
+    //  dx,dy
+    // map[a][b] = k // 골렘번호
+    // switch(exit){
+    //  case(동서남북)  :
+    //  exit[][]  = k
+    // }
+    // 
+    //
+    // 이제 정령을 이동
+    // vistied = new[][]
+    // max = moveFairy(x, y);
+    // ans+= max;
+//   }
+// }
