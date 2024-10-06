@@ -98,7 +98,7 @@ public class Main {
     }
 
     static int[] left(int x, int y, int exit) { // return x, y, exit
-        if(y-2 < 1 || x + 2 > r || (x-1 >= 0 && map[x-1][y-1] != 0) || map[x][y-2] != 0 || map[x+1][y-1] != 0 || map[x+1][y-2] != 0 || map[x+2][y-1] != 0) { // 왼쪽 아래로 이동 불가
+        if(y-2 < 1 || x + 2 > r || (x-1 >= 0 && map[x-1][y-1] != 0) || (x > 0 && map[x][y-2] != 0) || map[x+1][y-1] != 0 || map[x+1][y-2] != 0 || map[x+2][y-1] != 0) { // 왼쪽 아래로 이동 불가
             return new int[]{x, y, exit};
         }
 
