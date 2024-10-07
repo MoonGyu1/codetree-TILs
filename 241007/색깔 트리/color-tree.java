@@ -6,7 +6,7 @@ public class Main {
 	static HashMap<Integer, Node> nodes = new HashMap<>();
 	
 	public static void main(String[] args) throws Exception {
-		// System.setIn(new FileInputStream("src/s202401_am_1/input.txt"));
+//		System.setIn(new FileInputStream("src/s202401_am_1/input2.txt"));
 
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st;
@@ -35,7 +35,7 @@ public class Main {
 							pDepth = Math.max(p.currentDepth, pDepth + 1);
 						}
 						
-						if(p.pid != -1) { // 위배
+						if(p.pid != -1 || p.maxDepth < pDepth) { // 위배
 							continue;
 						} else {
 							nodes.get(p_id).children.add(m_id);
@@ -97,7 +97,6 @@ public class Main {
 				case "400": // 점수 조회
 					int sum = 0;
 					for(Tree t : trees) {
-						HashSet<Integer> s = new HashSet<>();
 						sum += getValueByInOrder(t.root);
 					}
 
@@ -108,7 +107,8 @@ public class Main {
 		}
 
 		bw.flush();
-		bw.close();
+//		System.out.println("t: " + trees.size());
+		bw.close(); // close 하면 System.out도 안됨
 	}
 	
 	static int getValueByInOrder(int id) {
