@@ -6,7 +6,7 @@ public class Main {
 	static HashMap<Integer, Node> nodes = new HashMap<>();
 	
 	public static void main(String[] args) throws Exception {
-		// System.setIn(new FileInputStream("src/s202401_am_1/input2.txt"));
+		// System.setIn(new FileInputStream("src/s202401_am_1/input.txt"));
 
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st;
@@ -62,6 +62,7 @@ public class Main {
 							p = nodes.get(p.pid);
 							currentDepth++;
 						}
+						p.currentDepth = Math.max(p.currentDepth, currentDepth);
 					}
 			
 					nodes.put(m_id, node);
