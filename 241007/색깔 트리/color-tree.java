@@ -6,7 +6,7 @@ public class Main {
 	static HashMap<Integer, Node> nodes = new HashMap<>();
 	
 	public static void main(String[] args) throws Exception {
-//		System.setIn(new FileInputStream("src/s202401_am_1/input2.txt"));
+		// System.setIn(new FileInputStream("src/s202401_am_1/input2.txt"));
 
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st;
@@ -52,6 +52,7 @@ public class Main {
 					node.color = color;
 					node.maxDepth = max_depth;
 					node.currentDepth = 1;
+					node.value.add(color);
 								
 					// 주의: id가 -1인 노드는 인스턴스 자체가 없음 -> 프로퍼티 호출 시 null 참조 에러 발생
 					if(p_id != -1) {
@@ -59,10 +60,13 @@ public class Main {
 						int currentDepth = 2;
 						while(p.pid != -1) {
 							p.currentDepth = Math.max(p.currentDepth, currentDepth);
+							p.value.add(color);
+							
 							p = nodes.get(p.pid);
 							currentDepth++;
 						}
 						p.currentDepth = Math.max(p.currentDepth, currentDepth);
+						p.value.add(color);
 					}
 			
 					nodes.put(m_id, node);
@@ -77,15 +81,32 @@ public class Main {
 					int toBeColor = Integer.parseInt(st.nextToken());
 					
 					nodes.get(rootId).color = toBeColor;
+					nodes.get(rootId).value.clear();
+					nodes.get(rootId).value.add(toBeColor);
 					
 					// 주의: 새로운 인스턴스 할당해야 별도의 리스트로 관리 가능
 					Queue<Integer> children = new LinkedList<>(nodes.get(rootId).children);
 					while(!children.isEmpty()) {
 						Node child = nodes.get(children.poll());
 						child.color = toBeColor;
+						child.value.clear();
+						child.value.add(toBeColor);
 						for(int c : child.children) {
 							children.add(c);
 						}
+					}
+					
+					int pid = nodes.get(rootId).pid;
+					while(pid != -1) {
+						Node p = nodes.get(pid);
+						p.value.clear();
+						for(int c : p.children) {
+							for(int v : nodes.get(c).value) {
+								p.value.add(v);
+							}
+						}
+						p.value.add(p.color);
+						pid = p.pid;
 					}
 					
 					break;
@@ -99,13 +120,14 @@ public class Main {
 					for(Tree t : trees) {
 						sum += getValueByInOrder(t.root);
 					}
-
+		
+//					if(nodes.size() >= 5) System.out.printf("%s %s %s %s %s\n", nodes.get(1).value.toString(), nodes.get(2).value.toString(), nodes.get(4).value.toString(), nodes.get(5).value.toString(), nodes.get(6).value.toString());
 					bw.write(String.format("%d\n", sum));
 					
 					break;
 			}
 		}
-
+// 빨간색은 1, 주황색은 2, 노랑색은 3, 초록색은 4, 파란색은 5로
 		bw.flush();
 //		System.out.println("t: " + trees.size());
 		bw.close(); // close 하면 System.out도 안됨
@@ -113,24 +135,25 @@ public class Main {
 	
 	static int getValueByInOrder(int id) {
 		if(nodes.get(id).children.size() == 0) {
-			HashSet<Integer> s = new HashSet<>();
-			s.add(nodes.get(id).color);
-			nodes.get(id).value = s;
+//			HashSet<Integer> s = new HashSet<>();
+//			s.add(nodes.get(id).color);
+//			nodes.get(id).value = s;
 			return 1;
 		}
 		
 		int value = 0;
-		HashSet<Integer> s = new HashSet<>();
+//		HashSet<Integer> s = new HashSet<>();
 		for(int c : nodes.get(id).children) {
 			value += getValueByInOrder(c);
-			for(int v : nodes.get(c).value) {
-				s.add(v);
-			}
-			s.add(nodes.get(id).color);
-			nodes.get(id).value = s;
+//			for(int v : nodes.get(c).value) {
+//				s.add(v);
+//			}
+//			s.add(nodes.get(id).color);
+//			nodes.get(id).value = s;
 		}
 		
-		return value + (int) Math.pow(s.size(), 2);
+//		return value + (int) Math.pow(s.size(), 2);
+		return value + (int) Math.pow(nodes.get(id).value.size(), 2);
 	}
 
 }
@@ -144,7 +167,7 @@ class Node {
 	int color;
 	int maxDepth;
 	int currentDepth;
-	HashSet<Integer> value;
+	HashSet<Integer> value = new HashSet<>();
 }
 
 // 트리 만들기
