@@ -35,9 +35,11 @@ public class Main {
 			ans.add(value);
 		}
 		
-		System.out.print(ans.get(0));
-		for(int i = 1; i < ans.size(); i++) {
-			System.out.print(" " + ans.get(i));
+		if(ans.size() > 0) {
+			System.out.print(ans.get(0));
+			for(int i = 1; i < ans.size(); i++) {
+				System.out.print(" " + ans.get(i));
+			}
 		}
 	}
 	
