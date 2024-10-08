@@ -122,7 +122,8 @@ public class Main {
 					}
 					
 					PriorityQueue<int[]> tmpList = new PriorityQueue<>((a, b) -> a[0] == b[0] ? a[1] - b[1] : b[0] - a[0]);
-					int len = list.size();
+					
+					boolean flag = true;
 					while(!list.isEmpty()) {
 						int[] l = list.poll(); // cost, id
 						cost = l[0];
@@ -131,6 +132,7 @@ public class Main {
 						if(cost >= 0) {
 							bw.write(String.format("%d\n", id));
 							bw.flush();
+							flag = false;
 							break;
 						}else {
 							tmpList.add(l);
@@ -141,7 +143,7 @@ public class Main {
 						list.add(tt);
 					}
 //					list = tmpList;
-					if(list.size() == len) {
+					if(flag) {
 						bw.write("-1\n");
 					}
 		
