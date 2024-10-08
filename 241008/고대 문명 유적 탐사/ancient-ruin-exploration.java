@@ -79,7 +79,7 @@ public class Main {
 		int c = max[1], j = max[2], i = max[3];
         
         while(c-->0) {
-			int[] tmp = {map[i-1][j-1], map[i-1][j], map[j-1][j+1]};
+			int[] tmp = {map[i-1][j-1], map[i-1][j], map[i-1][j+1]};
 			
 			map[i-1][j+1] = map[i-1][j-1];
 			map[i-1][j] = map[i][j-1];
