@@ -6,6 +6,8 @@ public class Main {
 	static Queue<Integer> rest = new LinkedList<>();
 	
 	public static void main(String[] args) throws Exception {
+//		System.setIn(new FileInputStream("src/s202401_pm_1/input2.txt"));
+		
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
 		int k = Integer.parseInt(st.nextToken());
@@ -31,15 +33,13 @@ public class Main {
 			
 			int value = makeValue();
 			if(value == 0) break;
-
+		
 			ans.add(value);
 		}
 		
-		if(ans.size() > 0) {
-			System.out.print(ans.get(0));
-			for(int i = 1; i < ans.size(); i++) {
-				System.out.print(" " + ans.get(i));
-			}
+		System.out.print(ans.get(0));
+		for(int i = 1; i < ans.size(); i++) {
+			System.out.print(" " + ans.get(i));
 		}
 	}
 	
@@ -55,6 +55,7 @@ public class Main {
 				}
 				
 				for(int c=1; c<=3; c++) {
+					// 주의: 격자 회전 시 i, j 옮길 때 잘못 타이핑하지 말 것!!
 					int[] tmp = {tm[i-1][j-1], tm[i-1][j], tm[i-1][j+1]};
 					
 					tm[i-1][j+1] = tm[i-1][j-1];
@@ -77,8 +78,8 @@ public class Main {
 		
 		int[] max = pq.poll();
 		int c = max[1], j = max[2], i = max[3];
-        
-        while(c-->0) {
+		
+		while(c-->0) {
 			int[] tmp = {map[i-1][j-1], map[i-1][j], map[i-1][j+1]};
 			
 			map[i-1][j+1] = map[i-1][j-1];
@@ -144,16 +145,16 @@ public class Main {
 				}
 			}
 			
-            for(int o=1; o<=5; o++) {
-				for(int p=5; p>=1; p--) { // 주의!!!!
+			for(int o=1; o<=5; o++) {
+				for(int p=5; p>=1; p--) { // for문 인덱스 감소 주의!!!!
+					System.out.println(p + " " + o);
 					if(map[p][o] == 0) {
-						int kk = rest.poll();
-						map[p][o] =kk;
+						map[p][o] = rest.poll();
 					}
 				}
 			}
 			
-		    if(cnt == 0) {
+			if(cnt == 0) {
 				flag = false;
 			}
 			
