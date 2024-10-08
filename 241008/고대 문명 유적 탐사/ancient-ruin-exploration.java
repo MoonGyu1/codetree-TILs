@@ -147,7 +147,6 @@ public class Main {
 			
 			for(int o=1; o<=5; o++) {
 				for(int p=5; p>=1; p--) { // for문 인덱스 감소 주의!!!!
-					System.out.println(p + " " + o);
 					if(map[p][o] == 0) {
 						map[p][o] = rest.poll();
 					}
