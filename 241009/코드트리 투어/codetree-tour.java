@@ -8,7 +8,7 @@ public class Main {
 	static int[][] w;
 	
 	public static void main(String[] args) throws Exception {
-//		System.setIn(new FileInputStream("src/s202401_am_2/input2.txt"));
+		// System.setIn(new FileInputStream("src/s202401_am_2/input3.txt"));
 
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
@@ -49,6 +49,7 @@ public class Main {
 					
 					// dist 계산하기
 					for(int i = 0; i < n; i++) {
+						w[i][i] = 0;
 						dist[i] = Integer.MAX_VALUE;
 					}
 					dist[s] = 0;
@@ -70,7 +71,7 @@ public class Main {
 						int tmpV = vv[1];
 						
 						for(int i=0; i<n; i++) {
-							if(w[tmpV][i] != 0 && !visited[i] && dist[i] > tmpW + w[tmpV][i]) {
+							if(w[tmpV][i] != Integer.MAX_VALUE && !visited[i] && dist[i] > tmpW + w[tmpV][i]) {
 								dist[i] = tmpW + w[tmpV][i];
 								pq.add(new int[] {dist[i], i});
 								visited[i] = true;
@@ -79,10 +80,10 @@ public class Main {
 						
 					}
 					
-//					System.out.println(Arrays.toString(dist));
+//					System.out.println("dist: " + Arrays.toString(dist));
 					
 					
-					
+//					
 //					for(int i=0; i<n; i++) {
 //						System.out.println(Arrays.toString(w[i]));
 //					}
@@ -176,7 +177,7 @@ public class Main {
 						int tmpV = vv[1];
 						
 						for(int i=0; i<n; i++) {
-							if(w[tmpV][i] != 0 && !visited[i] && dist[i] > tmpW + w[tmpV][i]) {
+							if(w[tmpV][i] != Integer.MAX_VALUE && !visited[i] && dist[i] > tmpW + w[tmpV][i]) {
 								dist[i] = tmpW + w[tmpV][i];
 								pq.add(new int[] {dist[i], i});
 								visited[i] = true;
