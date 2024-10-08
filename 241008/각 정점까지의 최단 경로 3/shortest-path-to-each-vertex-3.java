@@ -17,7 +17,7 @@ public class Main {
 
         int[] dist = new int[n+1];
         for(int i=1; i<=n; i++) {
-            dist[i] = 1000;
+            dist[i] = Integer.MAX_VALUE;
         }
         dist[1] = 0;
         PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> a[1] == b[1] ? a[0] - b[0] : a[1] - b[1]);
@@ -39,8 +39,8 @@ public class Main {
             }
         }
 
-        for(int i=1; i<=n; i++) {
-            System.out.println(dist[i]);
+        for(int i=2; i<=n; i++) {
+            System.out.println(dist[i] == Integer.MAX_VALUE ? -1 : dist[i]);
         }
     }
 }
