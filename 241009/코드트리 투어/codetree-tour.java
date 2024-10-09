@@ -8,7 +8,7 @@ public class Main {
 	static int[][] weight;
 	
 	public static void main(String[] args) throws Exception {
-		// System.setIn(new FileInputStream("src/s202401_am_2/input2.txt"));
+		// System.setIn(new FileInputStream("src/s202401_am_2/input1.txt"));
 
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st;
@@ -101,7 +101,7 @@ public class Main {
 					
 					break;
 				case "400": // 판매 
-//					for(int[] pp : list) { 
+//					for(int[] pp :travelList) { 
 //						System.out.println("cost: " + pp[0] + " id: " + pp[1]);
 //					}
 //					
@@ -147,24 +147,36 @@ public class Main {
 					
 					getDist(s);
 
-					
+				
 					// 기존 판매상품 관리 (cost 재계산)
 //					
-					tmpList = new ArrayList<>();
-					while(!travelList.isEmpty()) {
-						travel = travelList.poll();
-						id = travel[1];
-//						int[] travel = travelInfo.get(id);
-						revenue = travel[2];
-						dest = travel[3];
-						cost = revenue - dist[dest];
+//					tmpList = new ArrayList<>();
+					// 요소가 array인 경우 직접 변경 가
+					for(int[] t : travelList) {
+//						id = t[1];
+////						int[] travel = travelInfo.get(id);
+//						revenue = t[2];
+//						dest = t[3];
+//						cost = revenue - dist[dest];
+//						
+						t[0] = t[2] - dist[t[3]];
 						
-						tmpList.add(new int[] {cost, id, revenue, dest});
+//						t = new int[] {cost, id, revenue, dest};
 					}
-					
-					for(int[] t : tmpList) {
-						travelList.add(t);
-					}
+//					while(!travelList.isEmpty()) {
+//						travel = travelList.poll();
+//						id = travel[1];
+////						int[] travel = travelInfo.get(id);
+//						revenue = travel[2];
+//						dest = travel[3];
+//						cost = revenue - dist[dest];
+//						
+//						tmpList.add(new int[] {cost, id, revenue, dest});
+//					}
+//					
+//					for(int[] t : tmpList) {
+//						travelList.add(t);
+//					}
 //					list = newList;
 					
 					break;
