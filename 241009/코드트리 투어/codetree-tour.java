@@ -8,7 +8,7 @@ public class Main {
 	static int[][] weight;
 	
 	public static void main(String[] args) throws Exception {
-		// System.setIn(new FileInputStream("src/s202401_am_2/input2.txt"));
+		// System.setIn(new FileInputStream("src/s202401_am_2/input1.txt"));
 
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st;
@@ -24,10 +24,9 @@ public class Main {
 		
 		int s = 0;
 			
-		while(Q --> 0) {			
+		while(Q --> 0) {
 			st = new StringTokenizer(br.readLine());
 			String c = st.nextToken();
-//			System.out.println("q: " + Q + " c: " + c);
 			
 			switch(c) {
 				case "100": // 건설
@@ -77,16 +76,6 @@ public class Main {
 					
 					break;
 				case "400": // 판매 
-//					while(!travelList.isEmpty() && travelInfo.get(travelList.peek()[1])[2] == 1) {
-//						travelList.poll();
-//					}
-//					
-//					if(travelList.isEmpty()) {				
-//						System.out.println("-1");
-//						break;
-//					}
-//					
-//					
 					ArrayList<int[]> tmpList = new ArrayList<>();
 					int num = -1;
 					
@@ -94,14 +83,14 @@ public class Main {
 						int[] prod = travelList.poll(); // cost, id
 						cost = prod[0];
 						id = prod[1];
-//						System.out.println("id: " + id)						
+
 						boolean deleted = (travelInfo.get(id)[2] == 1);
 						if(deleted) continue;
 						
 						if(cost >= 0) {
 							num = id;
 							break;
-						}else {
+						} else {
 							tmpList.add(prod);
 						}
 						
@@ -123,7 +112,6 @@ public class Main {
 
 				
 					// 기존 판매상품 관리 (cost 재계산)
-//					
 					// 주의: 우선순위큐 내부 요소 직접 변경하는 경우 우선순위 반영 안 됨
 					tmpList = new ArrayList<>();
 					
@@ -150,38 +138,26 @@ public class Main {
 	}
 	
 	static void getDist(int s) {
-		// dist 계산하기
 		for(int i = 0; i < n; i++) {
 			dist[i] = MAX_R;
 		}
 		dist[s] = 0;
-//		boolean[] visited = new boolean[n];
 		
 		// w, v
 		PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> a[0] == b[0] ? a[1] - b[1] : a[0] - b[0]);
 		pq.add(new int[] {0, s});
-//		visited[s] = true;
 		
 		while(!pq.isEmpty()) {
-//			for(int[] pp: pq) {
-//				System.out.println(Arrays.toString(pp));
-//			}
-
-			
-			int[] tmp = pq.poll();
+			int[] tmp = pq.poll();			
 			int w = tmp[0];
 			int v = tmp[1];
-			
+					
 			for(int i=0; i<n; i++) {
 				if(weight[v][i] != MAX_R && dist[i] > w + weight[v][i]) {//&& !visited[i] 
 					dist[i] = w + weight[v][i];
 					pq.add(new int[] {dist[i], i});
-//					visited[i] = true;
 				}
 			}
-			
 		}
-		
-//		System.out.println("s: " + s + " dist: " + Arrays.toString(dist));
 	}
 }
