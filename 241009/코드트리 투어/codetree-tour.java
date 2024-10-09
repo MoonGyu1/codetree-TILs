@@ -8,7 +8,7 @@ public class Main {
 	static int[][] weight;
 	
 	public static void main(String[] args) throws Exception {
-		// System.setIn(new FileInputStream("src/s202401_am_2/input1.txt"));
+		// System.setIn(new FileInputStream("src/s202401_am_2/input6.txt"));
 
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st;
@@ -17,7 +17,8 @@ public class Main {
 		int m;
 		
 		// id: revenue, dest, deleted (매출, 목적지, 삭제여부)
-		HashMap<Integer, int[]> travelInfo = new HashMap<>();
+//		HashMap<Integer, int[]> travelInfo = new HashMap<>();
+		int[][] travelInfo = new int[30001][3];
 		
 		// {cost, id}
 		PriorityQueue<int[]>travelList = new PriorityQueue<>((a, b) -> a[0] == b[0] ? a[1] - b[1] : b[0] - a[0]);
@@ -61,7 +62,8 @@ public class Main {
 					int revenue = Integer.parseInt(st.nextToken());
 					int dest = Integer.parseInt(st.nextToken());
 					
-					travelInfo.put(id, new int[] {revenue, dest, 0});
+					travelInfo[id] = new int[] {revenue, dest, 0};
+//					travelInfo.put(id, new int[] {revenue, dest, 0});
 					
 					int cost = revenue - dist[dest];
 					
@@ -70,9 +72,11 @@ public class Main {
 					break;
 				case "300": // 취소 
 					id = Integer.parseInt(st.nextToken());
-					if(travelInfo.containsKey(id)) {
-						travelInfo.get(id)[2] = 1; // deleted
-					}
+					
+					travelInfo[id][2] = 1;
+//					if(travelInfo.containsKey(id)) {
+//						travelInfo.get(id)[2] = 1; // deleted
+//					}
 					
 					break;
 				case "400": // 판매 
@@ -84,7 +88,8 @@ public class Main {
 						cost = prod[0];
 						id = prod[1];
 
-						boolean deleted = (travelInfo.get(id)[2] == 1);
+						boolean deleted = (travelInfo[id][2] == 1);
+//						boolean deleted = (travelInfo.get(id)[2] == 1);
 						if(deleted) continue;
 						
 						if(cost >= 0) {
@@ -118,7 +123,8 @@ public class Main {
 					while(!travelList.isEmpty()) {
 						id = travelList.poll()[1];
 						
-						int[] travel = travelInfo.get(id);
+						int[] travel = travelInfo[id];
+//						int[] travel = travelInfo.get(id);
 						if(travel[2] == 1) continue;
 						
 						revenue = travel[0];
@@ -137,51 +143,27 @@ public class Main {
 		}
 	}
 	
-	// static void getDist(int s) {
-	// 	for(int i = 0; i < n; i++) {
-	// 		dist[i] = MAX_R;
-	// 	}
-	// 	dist[s] = 0;
-		
-	// 	// w, v
-	// 	PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> a[0] == b[0] ? a[1] - b[1] : a[0] - b[0]);
-	// 	pq.add(new int[] {0, s});
-		
-	// 	while(!pq.isEmpty()) {
-	// 		int[] tmp = pq.poll();			
-	// 		int w = tmp[0];
-	// 		int v = tmp[1];
-					
-	// 		for(int i=0; i<n; i++) {
-	// 			if(weight[v][i] != MAX_R && dist[i] > w + weight[v][i]) {//&& !visited[i] 
-	// 				dist[i] = w + weight[v][i];
-	// 				pq.add(new int[] {dist[i], i});
-	// 			}
-	// 		}
-	// 	}
-	// }
-
 	static void getDist(int s) {
-        boolean[] visit = new boolean[n];
-        for(int i = 0; i < n; i++) {
+		for(int i = 0; i < n; i++) {
 			dist[i] = MAX_R;
 		}
-        dist[s] = 0;
-
-        for (int i = 0; i < n - 1; i++) {
-            int v = 0, minDist = MAX_R;
-            for (int j = 0; j < n; j++) {
-                if (!visit[j] && minDist > dist[j]) {
-                    v = j;
-                    minDist = dist[j];
-                }
-            }
-            visit[v] = true;
-            for (int j = 0; j < n; j++) {
-                if (!visit[j] && dist[v] != MAX_R && weight[v][j] != MAX_R && dist[j] > dist[v] + weight[v][j]) {
-                    dist[j] = dist[v] + weight[v][j];
-                }
-            }
-        }
-    }
+		dist[s] = 0;
+		
+		// w, v
+		PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> a[0] == b[0] ? a[1] - b[1] : a[0] - b[0]);
+		pq.add(new int[] {0, s});
+		
+		while(!pq.isEmpty()) {
+			int[] tmp = pq.poll();			
+			int w = tmp[0];
+			int v = tmp[1];
+					
+			for(int i=0; i<n; i++) {
+				if(weight[v][i] != MAX_R && dist[i] > w + weight[v][i]) {//&& !visited[i] 
+					dist[i] = w + weight[v][i];
+					pq.add(new int[] {dist[i], i});
+				}
+			}
+		}
+	}
 }
