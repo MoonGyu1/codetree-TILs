@@ -8,7 +8,7 @@ public class Main {
 	static int[][] weight;
 	
 	public static void main(String[] args) throws Exception {
-		// System.setIn(new FileInputStream("src/s202401_am_2/input5.txt"));
+		// System.setIn(new FileInputStream("src/s202401_am_2/input2.txt"));
 
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st;
@@ -150,8 +150,8 @@ public class Main {
 				
 					// 기존 판매상품 관리 (cost 재계산)
 //					
-//					tmpList = new ArrayList<>();
-					// 내부 요소 직접 변경하는 경우 우선순위 반영 안 됨 
+					tmpList = new ArrayList<>();
+					// 내부 요소 직접 변경하는 경우 우선순위 반영 안 됨 --> O
 	
 				
 					for(int[] t : travelList) {
@@ -159,26 +159,26 @@ public class Main {
 						t[0] = travel[0] - dist[travel[1]];
 					}
 					
-//					while(!travelList.isEmpty()) {
-////						int[] travel = travelList.poll();
-//						id = travelList.poll()[1];
+					while(!travelList.isEmpty()) {
+//						int[] travel = travelList.poll();
+						id = travelList.poll()[1];
 //						
 //						boolean deleted = travelInfo.get(id)[2] == 1;
 //						if(deleted) continue;
-//						
-//						int[] travel = travelInfo.get(id);
-//						revenue = travel[0];
-//						dest = travel[1];
-//						cost = revenue - dist[dest];
-//						
-//						tmpList.add(new int[] {cost, id});
-//					}
+						
+						int[] travel = travelInfo.get(id);
+						revenue = travel[0];
+						dest = travel[1];
+						cost = revenue - dist[dest];
+						
+						tmpList.add(new int[] {cost, id});
+					}
 ////					
 ////					travelList.clear();
 ////					travelList = new PriorityQueue<>((a, b) -> a[0] == b[0] ? a[1] - b[1] : b[0] - a[0]);
-//					for(int[] t : tmpList) {
-//						travelList.add(new int[] {t[0], t[1]});
-//					}
+					for(int[] t : tmpList) {
+						travelList.add(t);
+					}
 					
 //					System.out.println("우선순위 테스트 " + travelList.size());
 //					while(!travelList.isEmpty()) {
