@@ -137,27 +137,51 @@ public class Main {
 		}
 	}
 	
+	// static void getDist(int s) {
+	// 	for(int i = 0; i < n; i++) {
+	// 		dist[i] = MAX_R;
+	// 	}
+	// 	dist[s] = 0;
+		
+	// 	// w, v
+	// 	PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> a[0] == b[0] ? a[1] - b[1] : a[0] - b[0]);
+	// 	pq.add(new int[] {0, s});
+		
+	// 	while(!pq.isEmpty()) {
+	// 		int[] tmp = pq.poll();			
+	// 		int w = tmp[0];
+	// 		int v = tmp[1];
+					
+	// 		for(int i=0; i<n; i++) {
+	// 			if(weight[v][i] != MAX_R && dist[i] > w + weight[v][i]) {//&& !visited[i] 
+	// 				dist[i] = w + weight[v][i];
+	// 				pq.add(new int[] {dist[i], i});
+	// 			}
+	// 		}
+	// 	}
+	// }
+
 	static void getDist(int s) {
-		for(int i = 0; i < n; i++) {
+        boolean[] visit = new boolean[n];
+        for(int i = 0; i < n; i++) {
 			dist[i] = MAX_R;
 		}
-		dist[s] = 0;
-		
-		// w, v
-		PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> a[0] == b[0] ? a[1] - b[1] : a[0] - b[0]);
-		pq.add(new int[] {0, s});
-		
-		while(!pq.isEmpty()) {
-			int[] tmp = pq.poll();			
-			int w = tmp[0];
-			int v = tmp[1];
-					
-			for(int i=0; i<n; i++) {
-				if(weight[v][i] != MAX_R && dist[i] > w + weight[v][i]) {//&& !visited[i] 
-					dist[i] = w + weight[v][i];
-					pq.add(new int[] {dist[i], i});
-				}
-			}
-		}
-	}
+        dist[s] = 0;
+
+        for (int i = 0; i < n - 1; i++) {
+            int v = 0, minDist = MAX_R;
+            for (int j = 0; j < n; j++) {
+                if (!visit[j] && minDist > dist[j]) {
+                    v = j;
+                    minDist = dist[j];
+                }
+            }
+            visit[v] = true;
+            for (int j = 0; j < n; j++) {
+                if (!visit[j] && dist[v] != MAX_R && weight[v][j] != MAX_R && dist[j] > dist[v] + weight[v][j]) {
+                    dist[j] = dist[v] + weight[v][j];
+                }
+            }
+        }
+    }
 }
