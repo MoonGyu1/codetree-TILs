@@ -120,7 +120,7 @@ public class Main {
 			for(Integer idx : idxes) {
 				int newIdx = (idx + overtime) % L;
 				
-				if(p && ((idx + overtime >= L && idx < pIdx || pIdx <= newIdx) || (idx + overtime < L && idx < pIdx && pIdx <= newIdx))) {
+				if(p && ((idx + overtime >= L && idx > pIdx || pIdx <= newIdx) || (idx + overtime < L && idx < pIdx && pIdx <= newIdx))) {
 					// 먹음 
 					person.get(name)[1]--; // cnt--;
 					sCnt--;
