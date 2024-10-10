@@ -4,6 +4,7 @@ import java.io.*;
 public class Main {
 	static HashMap<String, int[]> person = new HashMap<>(); // name: [idx, cnt]
 	static HashMap<String, ArrayList<Integer>> sushi = new HashMap<>(); // name: [idxs]
+	
 	static int L; // 의자 
 	static int Q; // 명령
 	static int pCnt = 0;
@@ -11,14 +12,12 @@ public class Main {
 	
 	public static void main(String[] args) throws Exception {
 		// System.setIn(new FileInputStream("src/s202302_pm_2/input3.txt"));
-
 		
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
 		
 		L = Integer.parseInt(st.nextToken());
-		Q = Integer.parseInt(st.
-				nextToken());
+		Q = Integer.parseInt(st.nextToken());
 		
 		int beforeT = 0;
 		
@@ -106,7 +105,8 @@ public class Main {
 	// 모든 초밥 회전 
 	static void eatAndRotate(int overtime) {
 //		System.out.println("overtime: " + overtime);
-		
+		ArrayList<String> deleted = new ArrayList<>();
+
 		for(Map.Entry<String, ArrayList<Integer>> entry : sushi.entrySet()) {
 			String name = entry.getKey();
 			boolean p = person.containsKey(name);
@@ -135,7 +135,15 @@ public class Main {
 				newIdxes.add(newIdx);
 			}
 			
-			sushi.put(entry.getKey(), newIdxes);
+			if(newIdxes.isEmpty()) {
+				deleted.add(name);
+			} else {
+				sushi.put(name, newIdxes);
+			}
+		}
+		
+		for(String name : deleted) {
+			sushi.remove(name);
 		}
 	}
 	
