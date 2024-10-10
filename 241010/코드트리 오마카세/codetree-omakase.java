@@ -17,7 +17,8 @@ public class Main {
 		StringTokenizer st = new StringTokenizer(br.readLine());
 		
 		L = Integer.parseInt(st.nextToken());
-		Q = Integer.parseInt(st.nextToken());
+		Q = Integer.parseInt(st.
+				nextToken());
 		
 		int beforeT = 0;
 		
@@ -46,7 +47,7 @@ public class Main {
 			int overtime = t - beforeT;
 			
 			// sushi인덱스 변경(회전)
-			rotate(overtime);
+			eatAndRotate(overtime);
 			
 			switch(c) {
 				case "100": // 초밥 생성
@@ -103,14 +104,36 @@ public class Main {
 	}
 	
 	// 모든 초밥 회전 
-	static void rotate(int overtime) {
+	static void eatAndRotate(int overtime) {
+//		System.out.println("overtime: " + overtime);
+		
 		for(Map.Entry<String, ArrayList<Integer>> entry : sushi.entrySet()) {
+			String name = entry.getKey();
+			boolean p = person.containsKey(name);
+			
+			int pIdx = p ? person.get(name)[0] : -1;
+			
 			ArrayList<Integer> idxes = entry.getValue();
 			
 			ArrayList<Integer> newIdxes = new ArrayList<Integer>();
 			
 			for(Integer idx : idxes) {
-				newIdxes.add((idx + overtime) % L);
+				int newIdx = (idx + overtime) % L;
+				
+				if(p && ((idx + overtime >= L && idx < pIdx || pIdx <= newIdx) || (idx + overtime < L && idx < pIdx && pIdx <= newIdx))) {
+					// 먹음 
+					person.get(name)[1]--; // cnt--;
+					sCnt--;
+					
+					if(person.get(name)[1] == 0) {
+						pCnt--;
+						person.remove(name);
+					}
+					
+					continue;
+				}
+				
+				newIdxes.add(newIdx);
 			}
 			
 			sushi.put(entry.getKey(), newIdxes);
