@@ -10,7 +10,7 @@ public class Main {
 	static int sCnt = 0;
 	
 	public static void main(String[] args) throws Exception {
-		// System.setIn(new FileInputStream("src/s202302_pm_2/input2.txt"));
+		// System.setIn(new FileInputStream("src/s202302_pm_2/input3.txt"));
 
 		
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -114,13 +114,12 @@ public class Main {
 			int pIdx = p ? person.get(name)[0] : -1;
 			
 			ArrayList<Integer> idxes = entry.getValue();
-			
 			ArrayList<Integer> newIdxes = new ArrayList<Integer>();
 			
 			for(Integer idx : idxes) {
 				int newIdx = (idx + overtime) % L;
 				
-				if(p && ((idx + overtime >= L && idx > pIdx || pIdx <= newIdx) || (idx + overtime < L && idx < pIdx && pIdx <= newIdx))) {
+				if(p && ((idx + overtime) / L > 1 || (idx + overtime >= L && idx > pIdx || pIdx <= newIdx) || (idx + overtime < L && idx < pIdx && pIdx <= newIdx))) {
 					// 먹음 
 					person.get(name)[1]--; // cnt--;
 					sCnt--;
