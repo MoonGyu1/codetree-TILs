@@ -144,7 +144,6 @@ public class Main {
 				for(int j = c; j <= c + w -1; j++) {
 					if(!inRange(i, j) || map[i][j] == 2) {
 						isWall = true;
-						break;
 					} else {
 						if(position[i][j] != 0) tmpP.add(position[i][j]);
 						if(position[i][j] != 0) isEmpty = false;
@@ -166,7 +165,6 @@ public class Main {
 				for(int i = r; i <= r + h -1; i++) {
 					if(!inRange(i, j) || map[i][j] == 2) {
 						isWall = true;
-						break;
 					} else {
 						if(position[i][j] != 0) tmpP.add(position[i][j]);
 						if(position[i][j] != 0) isEmpty = false;
@@ -188,7 +186,6 @@ public class Main {
 				for(int j = c; j <= c + w -1; j++) {
 					if(!inRange(i, j) || map[i][j] == 2) {
 						isWall = true;
-						break;
 					} else {
 						if(position[i][j] != 0) tmpP.add(position[i][j]);
 						if(position[i][j] != 0) isEmpty = false;
@@ -210,7 +207,6 @@ public class Main {
 				for(int i = r; i <= r + h -1; i++) {
 					if(!inRange(i, j) || map[i][j] == 2) {
 						isWall = true;
-						break;
 					} else {
 						if(position[i][j] != 0) tmpP.add(position[i][j]);
 						if(position[i][j] != 0) isEmpty = false;
