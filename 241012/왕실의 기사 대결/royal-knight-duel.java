@@ -16,7 +16,7 @@ public class Main {
 	static int[] dy = new int[]{0, 1, 0, -1};
 	
 	public static void main(String[] args) throws Exception {
-		// System.setIn(new FileInputStream("src/s202301_am_1/input3.txt"));
+		// System.setIn(new FileInputStream("src/s202301_am_1/input1.txt"));
 
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
@@ -73,6 +73,7 @@ public class Main {
 			
 			// 주변 canMove 체크 
 			 ArrayList<Integer> ps = getRelatedPn(pn, pd);
+			 
 			 boolean canMove = true;
 			
 //			 System.out.println(ps);
@@ -149,12 +150,12 @@ public class Main {
 						if(position[i][j] != 0) isEmpty = false;
 					}
 				}
-				
-				if(isWall || isEmpty) break;
-				
+								
 				for(Integer tp : tmpP) {
 					set.add(tp);
 				}
+				
+				if(isWall || isEmpty) break;
 			}
 		} else if(d == 1) { // 우
 			for(int j = c+w; j <= L; j++) {
@@ -163,6 +164,7 @@ public class Main {
 				ArrayList<Integer> tmpP = new ArrayList<>();
 				
 				for(int i = r; i <= r + h -1; i++) {
+//					System.out.println(i+ " " + j);
 					if(!inRange(i, j) || map[i][j] == 2) {
 						isWall = true;
 					} else {
@@ -171,11 +173,11 @@ public class Main {
 					}
 				}
 				
-				if(isWall || isEmpty) break;
-				
 				for(Integer tp : tmpP) {
 					set.add(tp);
 				}
+				
+				if(isWall || isEmpty) break;
 			}
 		} else if(d == 2) { // 하 
 			for(int i = r+h; i <= L; i++) {
@@ -192,11 +194,11 @@ public class Main {
 					}
 				}
 				
-				if(isWall || isEmpty) break;
-				
 				for(Integer tp : tmpP) {
 					set.add(tp);
 				}
+				
+				if(isWall || isEmpty) break;
 			}
 		} else if(d == 3) { // 좌
 			for(int j = c-1; j >= 1; j--) {
@@ -213,11 +215,11 @@ public class Main {
 					}
 				}
 				
-				if(isWall || isEmpty) break;
-				
 				for(Integer tp : tmpP) {
 					set.add(tp);
 				}
+				
+				if(isWall || isEmpty) break;
 			}
 		}
 		
