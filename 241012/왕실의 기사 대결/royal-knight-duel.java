@@ -16,7 +16,7 @@ public class Main {
 	static int[] dy = new int[]{0, 1, 0, -1};
 	
 	public static void main(String[] args) throws Exception {
-		// System.setIn(new FileInputStream("src/s202301_am_1/input2.txt"));
+		// System.setIn(new FileInputStream("src/s202301_am_1/input3.txt"));
 
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
@@ -54,9 +54,17 @@ public class Main {
 //		}
 		
 		while(Q-->0) {
+		
+			 
 			st = new StringTokenizer(br.readLine());
 			int pn = Integer.parseInt(st.nextToken());
 			int pd = Integer.parseInt(st.nextToken());
+			
+//			 String[] s= {"위" , "오른", "아래", "왼"};
+//			 System.out.println("Q" +Q+ ": "+ pn + "번 기사가 " + s[pd] + "쪽으로 한칸 ");
+//			 if(Q==71) {
+//				 System.out.println(person[1][0] + " " + person[1][1]);
+//			 }
 			
 			if(person[pn][5] == 0) continue; // 기사가 탈락한 경우 
 			
@@ -69,8 +77,7 @@ public class Main {
 			
 //			 System.out.println(ps);
 			 for(Integer p : ps) {
-				 if(!
-						 canMove(p, pd)) { // 움직일 수 없는 경우 
+				 if(!canMove(p, pd)) { // 움직일 수 없는 경우 
 					 canMove = false;
 					 break;
 				 }
@@ -84,6 +91,12 @@ public class Main {
 			 for(Integer p : ps) {
 				 move(p, pd, p==pn);
 			 }
+//			 
+//			 for(int i=1; i<=N; i++) {
+//				 System.out.println("p: " + i + " k: " + person[i][5]);
+//
+//			 }
+			 
 		}
 		
 		int totalD = 0; // 대미지의 합 
@@ -134,7 +147,7 @@ public class Main {
 						break;
 					} else {
 						if(position[i][j] != 0) tmpP.add(position[i][j]);
-						if(map[i][j] != 0) isEmpty = false;
+						if(position[i][j] != 0) isEmpty = false;
 					}
 				}
 				
@@ -156,7 +169,7 @@ public class Main {
 						break;
 					} else {
 						if(position[i][j] != 0) tmpP.add(position[i][j]);
-						if(map[i][j] != 0) isEmpty = false;
+						if(position[i][j] != 0) isEmpty = false;
 					}
 				}
 				
@@ -178,7 +191,7 @@ public class Main {
 						break;
 					} else {
 						if(position[i][j] != 0) tmpP.add(position[i][j]);
-						if(map[i][j] != 0) isEmpty = false;
+						if(position[i][j] != 0) isEmpty = false;
 					}
 				}
 				
@@ -200,7 +213,7 @@ public class Main {
 						break;
 					} else {
 						if(position[i][j] != 0) tmpP.add(position[i][j]);
-						if(map[i][j] != 0) isEmpty = false;
+						if(position[i][j] != 0) isEmpty = false;
 					}
 				}
 				
