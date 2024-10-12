@@ -16,7 +16,7 @@ public class Main {
 	static int[] dy = new int[]{0, 1, 0, -1};
 	
 	public static void main(String[] args) throws Exception {
-		// System.setIn(new FileInputStream("src/s202301_am_1/input4.txt"));
+		// System.setIn(new FileInputStream("src/s202301_am_1/input1.txt"));
 
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
@@ -27,7 +27,6 @@ public class Main {
 		
 		map = new int[L+1][L+1];
 		position = new int[L+1][L+1];
-		
 		person = new int[N+1][6];
 		
 		for(int i = 1; i <= L; i++) {
@@ -45,32 +44,28 @@ public class Main {
 			person[i][5] = person[i][4]; // currentK
 		}
 		
-//		for(int i=1; i<= L; i++) {
-//			System.out.println(Arrays.toString(map[i]));
-//		}
-//		
-//		for(int i=1; i<= N; i++) {
-//			System.out.println(Arrays.toString(person[i]));
-//		}
 		
 		while(Q-->0) {
-		
-			 
 			st = new StringTokenizer(br.readLine());
 			int pn = Integer.parseInt(st.nextToken());
 			int pd = Integer.parseInt(st.nextToken());
 			
 //			 String[] s= {"위" , "오른", "아래", "왼"};
 //			 System.out.println("Q" +Q+ ": "+ pn + "번 기사가 " + s[pd] + "쪽으로 한칸 ");
-//			 if(Q==71) {
-//				 System.out.println(person[1][0] + " " + person[1][1]);
+//			 
+//			 System.out.println("map: ");
+//			 for(int i=1; i<=L; i++) {
+//				 System.out.println(Arrays.toString(map[i]));
+//
 //			 }
+//			 System.out.println("person: ");
+//			 for(int i=1; i<= L; i++) {
+//					System.out.println(Arrays.toString(position[i]));
+//				}
+			 
 			
 			if(person[pn][5] == 0) continue; // 기사가 탈락한 경우 
 			
-//			if(Q==98) {
-//				System.out.println(canMove(pn, pd));
-//			}
 			// 자기자신 canMove 체크 
 			 if(!canMove(pn, pd)) continue;
 			
@@ -86,7 +81,6 @@ public class Main {
 					 break;
 				 }
 			 }
-//			 System.out.println(canMove);
 			 
 			 if(!canMove) continue;
 			
@@ -94,13 +88,7 @@ public class Main {
 			 move(pn, pd, true);
 			 for(Integer p : ps) {
 				 move(p, pd, p==pn);
-			 }
-//			 
-//			 for(int i=1; i<=N; i++) {
-//				 System.out.println("p: " + i + " k: " + person[i][5]);
-//
-//			 }
-			 
+			 }		 
 		}
 		
 		int totalD = 0; // 대미지의 합 
@@ -113,149 +101,59 @@ public class Main {
 		System.out.println(totalD);
 	}
 	
-	// 기사가 이동할 때, 함께 이동해야하는 기사 번호 
+	// 기사가 이동할 때, 함께 이동해야하는 기사 번호
 	static ArrayList<Integer> getRelatedPn(int p, int d) {
 		// position 맵 새로 만들기
 		position = new int[L+1][L+1];
 		for(int i = 1; i<=N; i++) {
 			if(person[i][5] == 0) continue; // 탈락한 기사 
-//			System.out.println("i: " +i);
 
 			int r = person[i][0], c = person[i][1], h = person[i][2], w = person[i][3];
 			for(int j = r; j <= r+h-1; j++) {
 				for(int k = c; k<= c+w-1; k++) {
-//					System.out.println(j + " " + k);
 					position[j][k] = i;
 				}
 			}
 		}
-//		
-//		for(int i=1; i<= L; i++) {
-//			System.out.println(Arrays.toString(position[i]));
-//		}
-//		
-		HashSet<Integer> set = new HashSet<>();
 		
-		// d에 따라 나눠서 판단
+		
 		int r = person[p][0], c = person[p][1], h = person[p][2], w = person[p][3];
-		ArrayList<Integer> wall = new ArrayList<>();
+		int sr=0, sc=0, er=0, ec=0;
+		switch(d) {
+			case 0: // 상 
+				sr = r -1; sc = c; er = r-1; ec = c+w-1;
+				break;
+			case 1: // 우 
+				sr = r; sc = c+w; er = r+h-1; ec = c+w;
+				break;
+			case 2: // 하
+				sr = r+h; sc = c; er = r+h; ec = c+w-1;
+				break;
+			case 3: // 좌 
+				sr = r; sc = c-1; er = r+h-1; ec = c-1;
+				break;
+		}
 		
-		if(d == 0) { // 상 
-			for(int i = r-1; i >= 1; i--) {
-//				boolean isWall = false;
-				boolean isEmpty = true;
-				ArrayList<Integer> tmpP = new ArrayList<>();
-				
-				for(int j = c; j <= c + w -1; j++) {
-					if(wall.contains(j)) continue;
+		HashSet<Integer> ps = new HashSet<>();
+		
+		for(int i = sr; i<=er; i++) {
+			for(int j=sc; j<=ec; j++) {
+				if(!inRange(i, j) || map[i][j] == 2) {
+					return new ArrayList<>(ps);
+				}
+				if(position[i][j] != 0){
+					ArrayList<Integer> tmpPs = new ArrayList<>();
+					tmpPs = getRelatedPn(position[i][j], d);
 					
-					if(!inRange(i, j) || map[i][j] == 2) {
-//						isWall = true;
-						wall.add(j);
-					} else {
-						if(position[i][j] != 0) tmpP.add(position[i][j]);
-						if(position[i][j] != 0) isEmpty = false;
+					ps.add(position[i][j]);
+					for(Integer pp : tmpPs) {
+						ps.add(pp);
 					}
 				}
-								
-				for(Integer tp : tmpP) {
-					set.add(tp);
-				}
-				
-				if(isEmpty) break;
-			}
-		} else if(d == 1) { // 우
-			for(int j = c+w; j <= L; j++) {
-//				boolean isWall = false;
-				boolean isEmpty = true;
-				ArrayList<Integer> tmpP = new ArrayList<>();
-				
-				for(int i = r; i <= r + h -1; i++) {
-					if(wall.contains(i)) continue;
-//					System.out.println(i+ " " + j);
-					if(!inRange(i, j) || map[i][j] == 2) {
-//						isWall = true;
-						wall.add(i);
-					} else {
-						if(position[i][j] != 0) tmpP.add(position[i][j]);
-						if(position[i][j] != 0) isEmpty = false;
-					}
-				}
-				
-				for(Integer tp : tmpP) {
-					set.add(tp);
-				}
-				
-				if(isEmpty) break;
-			}
-		} else if(d == 2) { // 하 
-			for(int i = r+h; i <= L; i++) {
-//				boolean isWall = false;
-				boolean isEmpty = true;
-				ArrayList<Integer> tmpP = new ArrayList<>();
-				
-				for(int j = c; j <= c + w -1; j++) {
-					if(wall.contains(j)) continue;
-					if(!inRange(i, j) || map[i][j] == 2) {
-//						isWall = true;
-						wall.add(j);
-					} else {
-						if(position[i][j] != 0) tmpP.add(position[i][j]);
-						if(position[i][j] != 0) isEmpty = false;
-					}
-				}
-				
-				for(Integer tp : tmpP) {
-					set.add(tp);
-				}
-				
-				if(isEmpty) break;
-			}
-		} else if(d == 3) { // 좌
-			for(int j = c-1; j >= 1; j--) {
-//				boolean isWall = false;
-				boolean isEmpty = true;
-				ArrayList<Integer> tmpP = new ArrayList<>();
-				
-				for(int i = r; i <= r + h -1; i++) {
-					if(wall.contains(i)) continue;
-					if(!inRange(i, j) || map[i][j] == 2) {
-//						isWall = true;
-						wall.add(i);
-					} else {
-						if(position[i][j] != 0) tmpP.add(position[i][j]);
-						if(position[i][j] != 0) isEmpty = false;
-					}
-				}
-				
-				for(Integer tp : tmpP) {
-					set.add(tp);
-				}
-				
-				if(isEmpty) break;
-			}
-		}
-	
-		
-		ArrayList<Integer> now = new ArrayList<>(set);
-		
-		HashSet<Integer> tmpSet = new HashSet<>();
-		
-		for(Integer tp : now) {
-			ArrayList<Integer> a = getRelatedPn(tp, d);
-			
-			for(Integer aa : a) {
-				tmpSet.add(aa);
 			}
 		}
 		
-		for(Integer tp : tmpSet) {
-			set.add(tp);
-		}
-		
-		ArrayList<Integer> ps = new ArrayList<>(set);
-		
-		return ps;
+		return new ArrayList<>(ps);
 	}
 	
 	static boolean canMove(int p, int d) {
