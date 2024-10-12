@@ -16,7 +16,7 @@ public class Main {
 	static int[] dy = new int[]{0, 1, 0, -1};
 	
 	public static void main(String[] args) throws Exception {
-		// System.setIn(new FileInputStream("src/s202301_am_1/input1.txt"));
+		// System.setIn(new FileInputStream("src/s202301_am_1/input4.txt"));
 
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
@@ -68,6 +68,9 @@ public class Main {
 			
 			if(person[pn][5] == 0) continue; // 기사가 탈락한 경우 
 			
+//			if(Q==98) {
+//				System.out.println(canMove(pn, pd));
+//			}
 			// 자기자신 canMove 체크 
 			 if(!canMove(pn, pd)) continue;
 			
@@ -103,7 +106,7 @@ public class Main {
 		int totalD = 0; // 대미지의 합 
 		for(int[] p : person) {
 			if(p[5] > 0) { // 생존 
-				totalD += p[4] - p[5];
+				totalD += (p[4] - p[5]);
 			}
 		}
 		
@@ -126,25 +129,29 @@ public class Main {
 				}
 			}
 		}
-		
+//		
 //		for(int i=1; i<= L; i++) {
 //			System.out.println(Arrays.toString(position[i]));
 //		}
-		
+//		
 		HashSet<Integer> set = new HashSet<>();
 		
 		// d에 따라 나눠서 판단
 		int r = person[p][0], c = person[p][1], h = person[p][2], w = person[p][3];
+		ArrayList<Integer> wall = new ArrayList<>();
 		
 		if(d == 0) { // 상 
 			for(int i = r-1; i >= 1; i--) {
-				boolean isWall = false;
+//				boolean isWall = false;
 				boolean isEmpty = true;
 				ArrayList<Integer> tmpP = new ArrayList<>();
 				
 				for(int j = c; j <= c + w -1; j++) {
+					if(wall.contains(j)) continue;
+					
 					if(!inRange(i, j) || map[i][j] == 2) {
-						isWall = true;
+//						isWall = true;
+						wall.add(j);
 					} else {
 						if(position[i][j] != 0) tmpP.add(position[i][j]);
 						if(position[i][j] != 0) isEmpty = false;
@@ -155,18 +162,20 @@ public class Main {
 					set.add(tp);
 				}
 				
-				if(isWall || isEmpty) break;
+				if(isEmpty) break;
 			}
 		} else if(d == 1) { // 우
 			for(int j = c+w; j <= L; j++) {
-				boolean isWall = false;
+//				boolean isWall = false;
 				boolean isEmpty = true;
 				ArrayList<Integer> tmpP = new ArrayList<>();
 				
 				for(int i = r; i <= r + h -1; i++) {
+					if(wall.contains(i)) continue;
 //					System.out.println(i+ " " + j);
 					if(!inRange(i, j) || map[i][j] == 2) {
-						isWall = true;
+//						isWall = true;
+						wall.add(i);
 					} else {
 						if(position[i][j] != 0) tmpP.add(position[i][j]);
 						if(position[i][j] != 0) isEmpty = false;
@@ -177,17 +186,19 @@ public class Main {
 					set.add(tp);
 				}
 				
-				if(isWall || isEmpty) break;
+				if(isEmpty) break;
 			}
 		} else if(d == 2) { // 하 
 			for(int i = r+h; i <= L; i++) {
-				boolean isWall = false;
+//				boolean isWall = false;
 				boolean isEmpty = true;
 				ArrayList<Integer> tmpP = new ArrayList<>();
 				
 				for(int j = c; j <= c + w -1; j++) {
+					if(wall.contains(j)) continue;
 					if(!inRange(i, j) || map[i][j] == 2) {
-						isWall = true;
+//						isWall = true;
+						wall.add(j);
 					} else {
 						if(position[i][j] != 0) tmpP.add(position[i][j]);
 						if(position[i][j] != 0) isEmpty = false;
@@ -198,17 +209,19 @@ public class Main {
 					set.add(tp);
 				}
 				
-				if(isWall || isEmpty) break;
+				if(isEmpty) break;
 			}
 		} else if(d == 3) { // 좌
 			for(int j = c-1; j >= 1; j--) {
-				boolean isWall = false;
+//				boolean isWall = false;
 				boolean isEmpty = true;
 				ArrayList<Integer> tmpP = new ArrayList<>();
 				
 				for(int i = r; i <= r + h -1; i++) {
+					if(wall.contains(i)) continue;
 					if(!inRange(i, j) || map[i][j] == 2) {
-						isWall = true;
+//						isWall = true;
+						wall.add(i);
 					} else {
 						if(position[i][j] != 0) tmpP.add(position[i][j]);
 						if(position[i][j] != 0) isEmpty = false;
@@ -219,8 +232,25 @@ public class Main {
 					set.add(tp);
 				}
 				
-				if(isWall || isEmpty) break;
+				if(isEmpty) break;
 			}
+		}
+	
+		
+		ArrayList<Integer> now = new ArrayList<>(set);
+		
+		HashSet<Integer> tmpSet = new HashSet<>();
+		
+		for(Integer tp : now) {
+			ArrayList<Integer> a = getRelatedPn(tp, d);
+			
+			for(Integer aa : a) {
+				tmpSet.add(aa);
+			}
+		}
+		
+		for(Integer tp : tmpSet) {
+			set.add(tp);
 		}
 		
 		ArrayList<Integer> ps = new ArrayList<>(set);
@@ -233,8 +263,9 @@ public class Main {
 		int r = person[p][0], c = person[p][1];
 		int h = person[p][2], w = person[p][3];
 		
+		
 		int next_r = r + dx[d], next_c = c + dy[d];
-		 
+		
 		for(int i = next_r; i <= next_r + h-1; i++) {	
 			for(int j = next_c; j <= next_c + w-1; j++) {
 				if(!inRange(i, j) || map[i][j] == 2) return false;
