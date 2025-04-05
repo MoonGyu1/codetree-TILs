@@ -9,6 +9,10 @@ public class Main {
     static boolean[][] isShown;
 
     public static void main(String[] args) throws IOException {
+        // Runtime.getRuntime().gc();
+        // long usedMemory = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
+        // System.out.print(usedMemory + " bytes");
+
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
 
@@ -41,6 +45,8 @@ public class Main {
             }
         }
 
+        // usedMemory = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
+        // System.out.print(usedMemory + " bytes");
         // System.out.println(Arrays.deepToString(map));
 
         // 0. 
@@ -49,6 +55,9 @@ public class Main {
             System.out.println(-1);
             return;
         }
+
+        // usedMemory = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
+        // System.out.print(usedMemory + " bytes");
 
         for(int[] r : route) {
             if(r[0] == ER && r[1] == EC) {
@@ -66,6 +75,9 @@ public class Main {
                     w.dead = true;
                 }
             }
+
+            // usedMemory = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
+            // System.out.print(usedMemory + " bytes");
 
             // 2.
             isShown = new boolean[N][N];
@@ -113,7 +125,8 @@ public class Main {
             }
 
             sCnt += max;
-
+            // usedMemory = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
+            // System.out.print(usedMemory + " bytes");
             // System.out.println(Arrays.deepToString(isShown));
 
             // 3.
@@ -160,6 +173,9 @@ public class Main {
                     }
                 }
             }
+
+            // usedMemory = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
+            // System.out.print(usedMemory + " bytes");
 
             // 5.
             System.out.println(mCnt + " " + sCnt + " " + aCnt);
@@ -259,9 +275,12 @@ public class Main {
         Queue<Node> q = new ArrayDeque<>();
         boolean[][] visited = new boolean[N][N];
 
-
         q.add(new Node(SR, SC, ""));
         visited[SR][SC] = true;
+
+        // Runtime.getRuntime().gc();
+        // long usedMemory = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
+        // System.out.print(usedMemory + " bytes(bfs)");
 
         while(!q.isEmpty()) {
             Node node = q.poll();
@@ -269,9 +288,12 @@ public class Main {
             String route = node.route;
 
             if(x == ER && y == EC) {
+                // usedMemory = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
+                // System.out.print(usedMemory + " bytes(bfs end)");
+
                 String[] tmp = route.split("/");
                 ArrayList<int[]> result = new ArrayList<>();
-                
+
                 for(String t : tmp) {
                     if(t.isEmpty()) continue;
                     String[] tmp2 = t.split(",");
@@ -285,6 +307,7 @@ public class Main {
                 int nx = x + dist[0], ny = y + dist[1];
                 if(inRange(nx, ny) && map[nx][ny] == 0 && !visited[nx][ny]) {
                     q.add(new Node(nx, ny, route + "/" + nx + "," + ny));
+                    visited[nx][ny] = true;
                 }
             }
         }
