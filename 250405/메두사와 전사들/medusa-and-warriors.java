@@ -134,7 +134,7 @@ public class Main {
 	static ArrayList<int[]> getRoutes() {
 		class Node {
 			int x, y;
-			String route;
+			String route; // 주의: ArrayList<int[]>로 관리해도 메모리 차이 미미함
 
 			Node(int x, int y, String route) {
 				this.x = x;
