@@ -27,11 +27,9 @@ public class Main {
 
         warriors = new ArrayList<>();
 
-        if(M != 0) {
-            st = new StringTokenizer(br.readLine());
-            for(int i = 0; i < M; i++) {
-                warriors.add(new Warrior(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken())));
-            }
+        st = new StringTokenizer(br.readLine());
+        for(int i = 0; i < M; i++) {
+            warriors.add(new Warrior(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken())));
         }
 
         // System.out.println(N + " " + M);
