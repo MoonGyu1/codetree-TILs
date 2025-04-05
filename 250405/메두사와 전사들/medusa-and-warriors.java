@@ -247,9 +247,9 @@ public class Main {
     static ArrayList<int[]> getRoutes() {
         class Node {
             int x, y;
-            ArrayList<int[]> route;
+            String route;
 
-            Node(int x, int y, ArrayList<int[]> route) {
+            Node(int x, int y, String route) {
                 this.x = x;
                 this.y = y;
                 this.route = route;
@@ -260,23 +260,31 @@ public class Main {
         boolean[][] visited = new boolean[N][N];
 
 
-        q.add(new Node(SR, SC, new ArrayList<>()));
+        q.add(new Node(SR, SC, ""));
         visited[SR][SC] = true;
 
         while(!q.isEmpty()) {
             Node node = q.poll();
             int x = node.x, y = node.y;
-            ArrayList<int[]> route = node.route;
+            String route = node.route;
 
-            if(x == ER && y == EC) return route;
+            if(x == ER && y == EC) {
+                String[] tmp = route.split("/");
+                ArrayList<int[]> result = new ArrayList<>();
+                
+                for(String t : tmp) {
+                    if(t.isEmpty()) continue;
+                    String[] tmp2 = t.split(",");
+                    result.add(new int[]{Integer.parseInt(tmp2[0]), Integer.parseInt(tmp2[1])});
+                }
+                return result;
+            }
 
             // 상하좌우
             for(int[] dist : new int[][]{{-1, 0}, {1, 0}, {0, -1}, {0, 1}}) {
                 int nx = x + dist[0], ny = y + dist[1];
                 if(inRange(nx, ny) && map[nx][ny] == 0 && !visited[nx][ny]) {
-                    ArrayList<int[]> nRoute = new ArrayList<>(route);
-                    nRoute.add(new int[]{nx, ny});
-                    q.add(new Node(nx, ny, nRoute));
+                    q.add(new Node(nx, ny, route + "/" + nx + "," + ny));
                 }
             }
         }
