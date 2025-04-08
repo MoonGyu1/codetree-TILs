@@ -2,7 +2,7 @@ import java.io.*;
 import java.util.*;
 
 // 시간복잡도: O(N^2 * F)
-public class Solution미지의_공간_탈출 {
+public class Main {
 	static final int INF = Integer.MAX_VALUE;
 
 	// 동서남북
