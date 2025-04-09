@@ -24,7 +24,7 @@ public class Main {
 		}
 	}
 
-	// 그래프 생성
+	// 그래프 생성 - 범위 내 모든 칸 연결 (장애물 처리 X)
 	static int[][] buildGraph(int N, int M, int F, int[][] space, int[][][] walls, TimeEvent[] events, int[][] spaceIds, int[][][] wallIds) {
 		int totalNode = N * N + M * M * 4;
 		int[][] graph = new int[totalNode][4]; // 동남서북
@@ -35,7 +35,6 @@ public class Main {
 		// 미지의 공간 간선 연결
 		for(int i = 0; i < N; i++) {
 			for(int j = 0; j < N; j++) {
-				if(space[i][j] == 1) continue;
 				if(space[i][j] == 3) continue;
 
 				int id = spaceIds[i][j];
@@ -44,7 +43,6 @@ public class Main {
 					int nx = i + dx[d], ny = j + dy[d];
 
 					if(nx < 0|| ny < 0 || nx >= N || ny >= N) continue;
-					if(space[nx][ny] == 1) continue; //
 					if(space[nx][ny] == 3) continue;
 
 					graph[id][d] = spaceIds[nx][ny];
@@ -65,7 +63,6 @@ public class Main {
 						// 	System.out.println(nx + " " + ny + " " + space[nx][ny]);
 						// }
 						if (nx < 0 || ny < 0 || nx >= M || ny >= M) continue;
-						if (walls[s][nx][ny] == 1) continue;
 
 						graph[id][d] = wallIds[s][nx][ny];
 					}
@@ -79,8 +76,6 @@ public class Main {
 				int lid = wallIds[s][i][M-1];
 				int rid = wallIds[(s+3)%4][i][0];
 				
-				if(walls[s][i][M-1] == 1 || walls[(s+3)%4][i][0] == 1) continue;
-				
 				graph[lid][0] = rid;
 				graph[rid][2] = lid;
 			}
@@ -92,8 +87,6 @@ public class Main {
 				int rid = wallIds[s][i][0];
 				int lid = wallIds[(s+1)%4][i][M-1];
 
-				if(walls[s][i][0] == 1 || walls[(s+1)%4][i][M-1] == 1) continue;
-
 				graph[rid][2] = lid;
 				graph[lid][0] = rid;
 			}
@@ -104,8 +97,6 @@ public class Main {
 		for(int j = 0; j < M; j++) {
 			int did = wallIds[0][0][j];
 			int uid = wallIds[4][M-j-1][M-1];
-
-			if(walls[0][0][j] == 1 || walls[4][M-j-1][M-1] == 1) continue;
 			
 			graph[did][3] = uid;
 			graph[uid][0] = did;
@@ -121,8 +112,6 @@ public class Main {
 			// 	System.out.println(Arrays.deepToString(walls[1]));
 			// }
 
-			if(walls[1][0][j] == 1 || walls[4][M-1][j] == 1) continue;
-
 			graph[did][3] = uid;
 			graph[uid][1] = did;
 		}
@@ -132,8 +121,6 @@ public class Main {
 			int did = wallIds[2][0][j];
 			int uid = wallIds[4][j][0];
 
-			if(walls[2][0][j] == 1 || walls[4][j][0] == 1) continue;
-
 			graph[did][3] = uid;
 			graph[uid][2] = did;
 		}
@@ -142,8 +129,6 @@ public class Main {
 		for(int j = 0; j < M; j++) {
 			int did = wallIds[3][0][j];
 			int uid = wallIds[4][0][M-j-1];
-
-			if(walls[3][0][j] == 1 || walls[4][0][M-j-1] == 1) continue;
 
 			graph[did][3] = uid;
 			graph[uid][3] = did;
@@ -167,8 +152,6 @@ public class Main {
 			int wid = wallIds[0][M-1][j];
 			int sid = spaceIds[sx+M-j-1][sy+M];
 
-			if(walls[0][M-1][j] == 1 || space[sx+M-j-1][sy+M] == 1) continue;
-
 			graph[wid][1] = sid;
 			graph[sid][2] = wid;
 		}
@@ -176,9 +159,7 @@ public class Main {
 		// 남
 		for(int j = 0; j < M; j++) {
 			int wid = wallIds[1][M-1][j];
-			int sid = spaceIds[sx+M][j];
-
-			if(walls[1][M-1][j] == 1 || space[sx+M][j] == 1) continue;
+			int sid = spaceIds[sx+M][sy+j]; // y로 해서 틀림
 
 			graph[wid][1] = sid;
 			graph[sid][3] = wid;
@@ -189,8 +170,6 @@ public class Main {
 			int wid = wallIds[2][M-1][j];
 			int sid = spaceIds[sx+j][sy-1];
 
-			if(walls[2][M-1][j] == 1 || space[sx+j][sy-1] == 1) continue;
-
 			graph[wid][1] = sid;
 			graph[sid][0] = wid;
 		}
@@ -199,8 +178,6 @@ public class Main {
 		for(int j = 0; j < M; j++) {
 			int wid = wallIds[3][M-1][j];
 			int sid = spaceIds[sx-1][sy+M-j-1];
-
-			if(walls[3][M-1][j] == 1 || space[sx-1][sy+M-j-1] == 1) continue;
 
 			graph[wid][1] = sid;
 			graph[sid][1] = wid;
@@ -246,7 +223,7 @@ public class Main {
 			int v = sc.nextInt();
 
 			events[i] = new TimeEvent(x, y, d, v);
-			space[x][y] = 1; // 장애물 처리 // 
+			// space[x][y] = 1; // 장애물 처리 // 
 		}
 
 		// 각 셀의 번호 생성
@@ -274,6 +251,8 @@ public class Main {
 		// 그래프 생성
 		int[][] graph = buildGraph(N, M, F, space, walls, events, spaceIds, wallIds);
 
+		// System.out.println(Arrays.toString(graph[93]));
+
 		// 다익스트라
 		class Node {
 			int id;
@@ -288,7 +267,7 @@ public class Main {
 		
 		int totalNode = N * N + M * M * 4;
 		int[] dist = new int[totalNode];
-		Arrays.fill(dist, -1);
+		Arrays.fill(dist, -1); // 장애물,시간확산은 INF, 미방문은 -1, 그 외는 방문
 		
 		for(int i = 0; i < N; i++) {
 			for(int j = 0; j < N; j++) {
@@ -301,12 +280,20 @@ public class Main {
 		for(int s = 0; s < 5; s++) {
 			for(int i = 0; i < M; i++) {
 				for(int j = 0; j < M; j++) {
-					if(wallIds[s][i][j] == 1) {
+					if(walls[s][i][j] == 1) { // 주의: wallIds와 헷갈려서 틀림
 						dist[wallIds[s][i][j]] = INF;
 					}
 				}
 			}
 		}
+
+		for(int i = 0; i < F; i++) {
+			TimeEvent e = events[i];
+			dist[spaceIds[e.x][e.y]] = INF; // 주의: space가 아니라 dist를 INF 처리 해야함
+		}
+
+		// System.out.println("dist: " + " " + dist[57]);
+		// System.out.println(walls[0][0][2]);
 
 		// 시작점, 도착점 탐색
 		int sid = -1, eid = -1;
@@ -365,7 +352,7 @@ public class Main {
 				// if(turn == 14) {
 				// 	System.out.println("spread: " + nx + " " + ny);
 				// }
-				space[nx][ny] = 1;
+				// space[nx][ny] = 1;
 				dist[spaceIds[nx][ny]] = INF;
 			}
 
@@ -373,11 +360,16 @@ public class Main {
 			// ArrayList<Integer> next = new ArrayList<>();
 			ArrayList<Node> next = new ArrayList<>();
 			String route;
+
+
+			// if(turn == 13) System.out.println(dist[6]);
+			// if(turn == 14) System.out.println(dist[6]);
+
 			while(!q.isEmpty()) {
 				// int id = q.poll();
 				Node nd = q.poll();
 				route = nd.r;
-				// System.out.println(route);
+				// if(nd.id==eid) System.out.println(route);
 				int id = nd.id;
 				// if(id == 29) {
 				// 	System.out.println(Arrays.toString(graph[29]));
@@ -404,7 +396,7 @@ public class Main {
 			}
 			
 			if(next.isEmpty()) break;
-			if(dist[eid] != -1) break;
+			// if(dist[eid] != -1) break;
 			
 			// for(int id : next) {
 			// 	q.add(id);
